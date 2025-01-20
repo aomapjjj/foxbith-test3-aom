@@ -33,7 +33,7 @@ const Question = () => {
           <Grid2 size={12}>
             <Typography
               variant="h6"
-              component="div"
+              fontFamily={"Prompt"}
               sx={{ flexGrow: 1, color: "black" }}
             >
               Question {QUESTION_INIT.id}
@@ -55,7 +55,9 @@ const Question = () => {
           </Grid2>
           <Grid2 size={12}>
             <Button color="warning" sx={{ display: "flex", gap: 1 }} >
-              <Plus /> <p color="warning">Add Choice</p>
+              <Plus /> <p color="warning" style={{
+                fontFamily:"Prompt"
+              }}>Add Choice</p>
             </Button>
           </Grid2>
           <Grid2 size={12}>

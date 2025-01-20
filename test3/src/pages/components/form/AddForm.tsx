@@ -7,7 +7,7 @@ const AddForm = () => {
         sx={{
           gap: 6,
           backgroundColor: "white",
-          borderRadius: 3,
+          borderRadius: 3
         }}
       >
         <Button
@@ -15,10 +15,18 @@ const AddForm = () => {
           variant="outlined"
           sx={{
             width: "100%",
-            gap: 2,
+            gap: 2
           }}
         >
-          <Plus /> <p color="warning">Add Question</p>
+          <Plus />{" "}
+          <p
+            color="warning"
+            style={{
+              fontFamily:"Prompt"
+            }}
+          >
+            Add Question
+          </p>
         </Button>
       </Box>
     </div>

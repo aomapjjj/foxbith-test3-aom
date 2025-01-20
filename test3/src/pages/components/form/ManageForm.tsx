@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material"
-import { Copy, Trash } from "lucide-react"
-
+import ContentCopyIcon from "@mui/icons-material/ContentCopy"
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 const ManageForm = () => {
   return (
     <div>
@@ -8,28 +8,42 @@ const ManageForm = () => {
       <Box
         sx={{
           mt: 2,
-          display: "flex",
+          display: "flex"
         }}
       >
         <Button
           sx={{
             gap: 1,
             "&, &.Mui-checked": {
-            color: "black",
-          },
+              color: "black"
+            }
           }}
         >
-          <Copy /> <p>Duplicate</p>
+          <ContentCopyIcon />
+          <p
+            style={{
+              fontFamily: "Prompt"
+            }}
+          >
+            Duplicate
+          </p>
         </Button>
         <Button
           sx={{
             gap: 1,
             "&, &.Mui-checked": {
-            color: "black",
-          },
+              color: "black"
+            }
           }}
         >
-          <Trash /> <p>Delete</p>
+          <DeleteOutlineIcon />
+          <p
+            style={{
+              fontFamily: "Prompt"
+            }}
+          >
+            Delete
+          </p>
         </Button>
       </Box>
     </div>

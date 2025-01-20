@@ -1,6 +1,5 @@
 import { Radio } from "@mui/material"
-import { Check } from 'lucide-react';
-
+import { Check } from "lucide-react"
 
 const Choice = () => {
   return (
@@ -11,8 +10,8 @@ const Choice = () => {
         inputProps={{ "aria-label": "A" }}
         sx={{
           "&, &.Mui-checked": {
-            color: "#00C62B",
-          },
+            color: "black"
+          }
         }}
       />
     </div>

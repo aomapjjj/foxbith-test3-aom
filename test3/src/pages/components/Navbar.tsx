@@ -1,18 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material"
-import { orange } from "@mui/material/colors"
-import Form from "./Form"
+import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material"
 
 export default function App() {
   return (
@@ -22,7 +8,7 @@ export default function App() {
           <Toolbar>
             <Typography
               variant="h6"
-              component="div"
+              fontFamily={"Prompt"}
               sx={{ flexGrow: 1, color: "black" }}
             >
               🦊 Foxbith Questionnaire
@@ -32,18 +18,34 @@ export default function App() {
         </AppBar>
         <AppBar position="static" sx={{ bgcolor: "white" }}>
           <Toolbar sx={{ gap: 1, justifyContent: "end" }}>
-            <Button variant="outlined" color="warning">
+            <Button
+              variant="outlined"
+              sx={{
+                width: "89px",
+                height: "48px",
+                borderRadius: 2,
+                borderColor: "#FF5C00",
+                fontFamily: "Prompt",
+                color: "#FF5C00"
+              }}
+            >
               Cancel
             </Button>
-            <Button variant="contained" color="warning" sx={{ width: "150px" }}>
+            <Button
+              variant="contained"
+              color="warning"
+              sx={{
+                width: "180px",
+                height: "48px",
+                borderRadius: 2,
+                fontFamily: "Prompt"
+              }}
+            >
               Save
             </Button>
           </Toolbar>
         </AppBar>
       </Box>
-      <Stack gap={2} sx={{ p: 2 , bgcolor:"#F3F4F6"  }}>
-        <Form />
-      </Stack>
     </>
   )
 }

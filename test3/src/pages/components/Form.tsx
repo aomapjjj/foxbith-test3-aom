@@ -1,7 +1,6 @@
 import { Box, Grid2, Typography } from "@mui/material"
 import FormInput from "./form/FormInput"
 import Question from "./form/Question"
-import ManageForm from "./form/ManageForm"
 
 const Form = () => {
   return (
@@ -28,7 +27,7 @@ const Form = () => {
           <Grid2 size={12}>
             <Typography
               variant="h6"
-              component="div"
+              fontFamily={"Prompt"}
               sx={{ flexGrow: 1, color: "black" }}
             >
               Questionnaire Detail
