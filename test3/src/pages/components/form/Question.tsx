@@ -5,20 +5,21 @@ import { Plus } from "lucide-react"
 import ManageForm from "./ManageForm"
 import AddForm from "./AddForm"
 import { useActionState, useState } from "react"
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 
 interface Btn {
   href?: string
 }
 
-const QUESTION_INIT = {
-  id: 1,
-  question: "",
-  description: ""
-}
-
 const DESCRIPTION_INIT = {
   id: "",
   describe: ""
+}
+
+const QUESTION_INIT = {
+  id: 1,
+  question: "",
+  description: { ...DESCRIPTION_INIT }
 }
 
 const Question = (props: Btn) => {
@@ -46,6 +47,17 @@ const Question = (props: Btn) => {
     //   const updatedList = prev.filter((item: any) => prev[index] !== item)
     //   return [...updatedList]
     // })
+  }
+
+  const deleteDescription = (index: any) => {
+    console.log(descriptions)
+
+    setDescriptions((prev: any) => {
+      const updatedList = prev.filter((item: any) => prev[index] !== item )
+      const validateList = updatedList.filter((item: any) => updatedList.length > 0 )
+     console.log(validateList)
+      return [...updatedList]
+    })
 
   }
   // const handleChange = (event: any, field: string) => {
@@ -55,7 +67,6 @@ const Question = (props: Btn) => {
   //   })
   // }
 
-  const [messageDelete, formActionsDelete] = useActionState(deleteQuestion, null)
   const [messageDes, formActionsDes] = useActionState(addDescription, null)
   const [messageQues, formActionsQues] = useActionState(addQuestion, null)
 
@@ -107,8 +118,22 @@ const Question = (props: Btn) => {
                     key={1 + index}
                     name="Desciption"
                     label="Desciption*"
-                    value={description.describe}
+                    
                   />
+                  <Button
+                    onClick={() => {
+                      deleteDescription(index)
+                    }}
+                    sx={{
+                      color: "black"
+                    }}
+                  >
+                    <DeleteOutlineIcon
+                      sx={{
+                        p: 1
+                      }}
+                    />
+                  </Button>
                 </Box>
               </Grid2>
             ))}
@@ -132,11 +157,11 @@ const Question = (props: Btn) => {
                 </Button>
               </Grid2>
             </form>
-            
+
             <Grid2 size={12}>
               <ManageForm />
             </Grid2>
-           
+
             {/* formation */}
           </Grid2>
         </Box>
