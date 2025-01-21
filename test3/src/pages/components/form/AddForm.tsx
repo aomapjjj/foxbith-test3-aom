@@ -1,13 +1,18 @@
 import { Box, Button } from "@mui/material"
 import { Plus } from "lucide-react"
+
+
+
 const AddForm = () => {
   return (
     <div>
       <Box
         sx={{
-          gap: 6,
+          mx: 2,
+          boxShadow: 3,
+          p:"16px",
           backgroundColor: "white",
-          borderRadius: 3
+          borderEndEndRadius: 3
         }}
       >
         <Button
@@ -15,14 +20,16 @@ const AddForm = () => {
           variant="outlined"
           sx={{
             width: "100%",
-            gap: 2
+            gap: 2,
+            borderRadius:"8px"
           }}
+          type="submit"
         >
-          <Plus />{" "}
+          <Plus />
           <p
             color="warning"
             style={{
-              fontFamily:"Prompt"
+              fontFamily: "Prompt"
             }}
           >
             Add Question

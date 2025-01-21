@@ -1,7 +1,15 @@
 import { Box, Button } from "@mui/material"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-const ManageForm = () => {
+
+interface ManageProps {
+  href?: string
+  onClickDelete?: any
+  onClicDuplicate?: any
+}
+
+const ManageForm = (props: ManageProps) => {
+  const { href, onClicDuplicate, onClickDelete } = props
   return (
     <div>
       <hr />
@@ -12,6 +20,7 @@ const ManageForm = () => {
         }}
       >
         <Button
+          onClick={onClicDuplicate}
           sx={{
             gap: 1,
             "&, &.Mui-checked": {
@@ -29,6 +38,9 @@ const ManageForm = () => {
           </p>
         </Button>
         <Button
+        onClick={() => {
+          onClickDelete
+        }}
           sx={{
             gap: 1,
             "&, &.Mui-checked": {
