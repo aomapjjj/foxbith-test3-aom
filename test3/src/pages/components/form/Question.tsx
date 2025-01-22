@@ -1,43 +1,49 @@
 import { Box, Button, Grid2, Radio, Typography } from "@mui/material"
 import FormInput from "./FormInput"
 import Choice from "./RadioChoice"
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add"
 import ManageForm from "./ManageForm"
 import AddForm from "./AddForm"
 import { useActionState, useState } from "react"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import { Description } from "@mui/icons-material"
 
 interface Btn {
   href?: string
 }
 
-const DESCRIPTION_INIT = {
-  id: "",
-  describe: ""
-}
+let id = 1
 
 const QUESTION_INIT = {
   id: 1,
   question: "",
-  description: { ...DESCRIPTION_INIT }
+  description: [{ id: 0, description: "" }]
 }
 
 const Question = (props: Btn) => {
   const { href } = props
+  const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
+  const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
 
-  const [questions, setQuestions] = useState<any>([{ ...QUESTION_INIT }])
-  const [questions1, setQuestions1] = useState<any>([{ ...QUESTION_INIT }])
-  const [descriptions, setDescriptions] = useState<any>([
-    { ...DESCRIPTION_INIT }
-  ])
-
-  const addDescription = () => {
-    const data = [...descriptions, { ...DESCRIPTION_INIT }]
-    setDescriptions(data)
+  const addDescription = (index: any) => {
+    setQuestions((prevQuestion: any) => {
+      prevQuestion[index].description.push({
+        id: prevQuestion[index].description.length,
+        description: ""
+      })
+      return [...prevQuestion]
+    })
   }
+
   const addQuestion = () => {
-    const data = [...questions, { ...QUESTION_INIT }]
-    setQuestions(data)
+    setQuestions((prev: any) => {
+      return [
+        ...prev,
+        JSON.parse(
+          JSON.stringify({ ...QUESTION_INIT, id: questions.length + 1 })
+        )
+      ]
+    })
   }
 
   const deleteQuestion = (index: any) => {
@@ -49,16 +55,20 @@ const Question = (props: Btn) => {
     // })
   }
 
-  const deleteDescription = (index: any) => {
-    console.log(descriptions)
-
-    setDescriptions((prev: any) => {
-      const updatedList = prev.filter((item: any) => prev[index] !== item )
-      const validateList = updatedList.filter((item: any) => updatedList.length > 0 )
-     console.log(validateList)
-      return [...updatedList]
-    })
-
+  const deleteDescription = (indexQ: any, indexD: any) => {
+    if (questions[indexQ].description.length > 1) {
+      setQuestions((prev: any) => {
+        const updatedList = prev[indexQ].description.filter(
+          (item: any) => prev[indexQ].description[indexD] !== item
+        )
+        // const newDesciption = {
+        //   ...prev[indexQ],
+        //   description: { ...updatedList }
+        // }
+        
+        return [...prev]
+      })
+    }
   }
   // const handleChange = (event: any, field: string) => {
   //   setValue((prev: any) => {
@@ -67,13 +77,14 @@ const Question = (props: Btn) => {
   //   })
   // }
 
-  const [messageDes, formActionsDes] = useActionState(addDescription, null)
+  // const [messageDes, formActionsDes] = useActionState(addDescription, null)
   const [messageQues, formActionsQues] = useActionState(addQuestion, null)
 
   return (
     <div>
-      {questions?.map((question: any, index: any) => (
+      {questions?.map((question: any, questionIndex: any) => (
         <Box
+          key={questionIndex}
           sx={{
             mx: 2,
             p: 2,
@@ -98,15 +109,15 @@ const Question = (props: Btn) => {
                 fontFamily={"Prompt"}
                 sx={{ flexGrow: 1, color: "black" }}
               >
-                Question {QUESTION_INIT.id + index}
+                Question {QUESTION_INIT.id + questionIndex}
               </Typography>
             </Grid2>
             <Grid2 size={12}>
               <FormInput name="Question" label="Question*" />
             </Grid2>
 
-            {descriptions?.map((description: any, index: any) => (
-              <Grid2 size={12}>
+            {question.description?.map((description: any, index: any) => (
+              <Grid2 size={12} key={index}>
                 <Box
                   sx={{
                     p: 1,
@@ -114,15 +125,10 @@ const Question = (props: Btn) => {
                   }}
                 >
                   <Choice />
-                  <FormInput
-                    key={1 + index}
-                    name="Desciption"
-                    label="Desciption*"
-                    
-                  />
+                  <FormInput name="Desciption" label="Desciption*" />
                   <Button
                     onClick={() => {
-                      deleteDescription(index)
+                      deleteDescription(questionIndex, index)
                     }}
                     sx={{
                       color: "black"
@@ -137,13 +143,13 @@ const Question = (props: Btn) => {
                 </Box>
               </Grid2>
             ))}
-            <form action={formActionsDes}>
+            <form>
               <Grid2 size={12}>
                 <Button
                   href={href}
                   color="warning"
                   sx={{ display: "flex", gap: 1 }}
-                  onClick={addDescription}
+                  onClick={() => addDescription(questionIndex)}
                 >
                   <AddIcon />
                   <p
