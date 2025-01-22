@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material"
-import { Plus } from "lucide-react"
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -25,7 +25,7 @@ const AddForm = () => {
           }}
           type="submit"
         >
-          <Plus />
+          <AddIcon />
           <p
             color="warning"
             style={{

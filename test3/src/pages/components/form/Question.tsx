@@ -1,7 +1,7 @@
 import { Box, Button, Grid2, Radio, Typography } from "@mui/material"
 import FormInput from "./FormInput"
 import Choice from "./RadioChoice"
-import { Plus } from "lucide-react"
+import AddIcon from '@mui/icons-material/Add';
 import ManageForm from "./ManageForm"
 import AddForm from "./AddForm"
 import { useActionState, useState } from "react"
@@ -145,7 +145,7 @@ const Question = (props: Btn) => {
                   sx={{ display: "flex", gap: 1 }}
                   onClick={addDescription}
                 >
-                  <Plus />
+                  <AddIcon />
                   <p
                     color="warning"
                     style={{
