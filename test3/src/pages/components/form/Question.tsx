@@ -47,12 +47,12 @@ const Question = (props: Btn) => {
   }
 
   const deleteQuestion = (index: any) => {
-    console.log("hello")
-    // console.log(index)
-    // setQuestions1((prev: any) => {
-    //   const updatedList = prev.filter((item: any) => prev[index] !== item)
-    //   return [...updatedList]
-    // })
+    if (questions.length > 1) {
+      setQuestions((prev: any) => {
+        const updatedList = prev.filter((item: any) => prev[index] !== item)
+        return [...updatedList]
+      })
+    }
   }
 
   const deleteDescription = (indexQ: any, indexD: any) => {
@@ -61,23 +61,14 @@ const Question = (props: Btn) => {
         const updatedList = prev[indexQ].description.filter(
           (item: any) => prev[indexQ].description[indexD] !== item
         )
-        // const newDesciption = {
-        //   ...prev[indexQ],
-        //   description: { ...updatedList }
-        // }
-        
+        console.log(updatedList)
+        prev[indexQ].description = [...updatedList]
+        console.log(prev[indexQ])
         return [...prev]
       })
     }
   }
-  // const handleChange = (event: any, field: string) => {
-  //   setValue((prev: any) => {
-  //     prev[field] = event.target.value
-  //     return { ...prev }
-  //   })
-  // }
 
-  // const [messageDes, formActionsDes] = useActionState(addDescription, null)
   const [messageQues, formActionsQues] = useActionState(addQuestion, null)
 
   return (
@@ -165,7 +156,7 @@ const Question = (props: Btn) => {
             </form>
 
             <Grid2 size={12}>
-              <ManageForm />
+              <ManageForm onClickDelete={() => deleteQuestion(questionIndex)} />
             </Grid2>
 
             {/* formation */}

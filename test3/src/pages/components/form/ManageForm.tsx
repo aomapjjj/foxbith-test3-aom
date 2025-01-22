@@ -38,9 +38,7 @@ const ManageForm = (props: ManageProps) => {
           </p>
         </Button>
         <Button
-        onClick={() => {
-          onClickDelete
-        }}
+        onClick={onClickDelete}
           sx={{
             gap: 1,
             "&, &.Mui-checked": {
