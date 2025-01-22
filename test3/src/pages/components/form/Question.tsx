@@ -8,20 +8,13 @@ import { useActionState, useState } from "react"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import { Description } from "@mui/icons-material"
 
-interface Btn {
-  href?: string
-}
-
-let id = 1
-
 const QUESTION_INIT = {
   id: 1,
   question: "",
   description: [{ id: 0, description: "" }]
 }
 
-const Question = (props: Btn) => {
-  const { href } = props
+const Question = () => {
   const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
   const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
 
@@ -67,6 +60,11 @@ const Question = (props: Btn) => {
         return [...prev]
       })
     }
+  }
+  const duplicateQuestion = (index: any) => {
+    setQuestions((prev: any) => {
+      return [...prev, JSON.parse(JSON.stringify({ ...prev[index] }))]
+    })
   }
 
   const [messageQues, formActionsQues] = useActionState(addQuestion, null)
@@ -137,7 +135,6 @@ const Question = (props: Btn) => {
             <form>
               <Grid2 size={12}>
                 <Button
-                  href={href}
                   color="warning"
                   sx={{ display: "flex", gap: 1 }}
                   onClick={() => addDescription(questionIndex)}
@@ -156,7 +153,10 @@ const Question = (props: Btn) => {
             </form>
 
             <Grid2 size={12}>
-              <ManageForm onClickDelete={() => deleteQuestion(questionIndex)} />
+              <ManageForm
+                onClickDelete={() => deleteQuestion(questionIndex)}
+                onClicDuplicate={() => duplicateQuestion(questionIndex)}
+              />
             </Grid2>
 
             {/* formation */}
