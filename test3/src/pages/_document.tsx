@@ -11,6 +11,9 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
+      <title>
+      Foxbith Questionnaire
+      </title>
       <body>
         <Main />
         <NextScript />

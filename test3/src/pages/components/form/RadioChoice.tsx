@@ -1,19 +1,16 @@
-import { Radio } from "@mui/material"
-import { Check } from "lucide-react"
+import { CheckCircle } from "@mui/icons-material"
+import { FormControl, Radio } from "@mui/material"
 
 const Choice = () => {
   return (
     <div>
-      <Radio
-        value="a"
-        name="radio-buttons"
-        inputProps={{ "aria-label": "A" }}
-        sx={{
-          "&, &.Mui-checked": {
-            color: "black"
-          }
-        }}
-      />
+      <FormControl>
+        <Radio
+          checkedIcon={<CheckCircle sx={{ color: "#00c62b" }} />}
+          // checked={choice.correct}
+          // onChange={() => handleSetCorrectChoice(question.id, choice.id)}
+        />
+      </FormControl>
     </div>
   )
 }
