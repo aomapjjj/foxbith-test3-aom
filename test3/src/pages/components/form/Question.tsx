@@ -6,7 +6,11 @@ import ManageForm from "./ManageForm"
 import AddForm from "./AddForm"
 import { useActionState, useState } from "react"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import { Description } from "@mui/icons-material"
+import * as Yup from "yup"
+
+interface validateFormProps {
+  valid?: any
+}
 
 const QUESTION_INIT = {
   id: 1,
@@ -14,10 +18,22 @@ const QUESTION_INIT = {
   description: [{ id: 0, description: "" }]
 }
 
-const Question = () => {
+const Question = (props: validateFormProps) => {
+  const { valid } = props
   const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
   const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
-  const [input, setInput] = useState("")
+
+  const validationSchema = Yup.object({
+    question: Yup.string().required("Please fill in this option")
+  })
+
+  const handleSubmit = async () => {
+   const validForm = await validationSchema.isValid(questions)
+   console.log(validForm)
+  }
+
+  handleSubmit()
+
 
   const addDescription = (index: any) => {
     setQuestions((prevQuestion: any) => {
@@ -41,9 +57,7 @@ const Question = () => {
       return [...prev]
     })
   }
-
   const addQuestion = () => {
-    console.log(questions)
     setQuestions((prev: any) => {
       return [
         ...prev,
@@ -53,7 +67,6 @@ const Question = () => {
       ]
     })
   }
-
   const deleteQuestion = (index: any) => {
     if (questions.length > 1) {
       setQuestions((prev: any) => {
@@ -62,7 +75,6 @@ const Question = () => {
       })
     }
   }
-
   const deleteDescription = (indexQ: any, indexD: any) => {
     if (questions[indexQ].description.length > 1) {
       setQuestions((prev: any) => {

@@ -16,8 +16,8 @@ type FormInputProps = {
   value?: string
   label: string
   onChange?: any
-  addDes?: any,
-  
+  addDes?: any
+  helperText?: any
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -86,25 +86,21 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, addDes } = props
+  const { name, label, value, onChange, helperText } = props
 
   const outerTheme = useTheme()
-
-  // const handleInput = (e: any) => {
-  //   const description = e.target.value
-  //   addDes(description)
-  // }
 
   return (
     <>
       <ThemeProvider theme={customTheme(outerTheme)}>
+        
         <TextField
           name={name}
           label={label}
           value={value}
           variant="outlined"
           onChange={onChange}
-         
+          helperText={helperText}
           sx={{
             width: "100%",
             [`& label`]: {

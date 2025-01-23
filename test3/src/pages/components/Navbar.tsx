@@ -1,6 +1,12 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material"
 
-export default function App() {
+interface validateFormProps {
+  onClick?: any
+}
+
+export default function App(props: validateFormProps) {
+  const { onClick } = props
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -40,6 +46,7 @@ export default function App() {
                 borderRadius: 2,
                 fontFamily: "Prompt"
               }}
+             onClick={onClick}
             >
               Save
             </Button>

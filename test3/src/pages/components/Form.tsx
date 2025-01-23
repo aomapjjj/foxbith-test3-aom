@@ -1,8 +1,15 @@
 import { Box, Grid2, Typography } from "@mui/material"
 import FormInput from "./form/FormInput"
 import Question from "./form/Question"
+import { useState } from "react"
 
-const Form = () => {
+interface validateFormProps {
+  valid?: any
+}
+
+const Form = (props: validateFormProps) => {
+  const { valid } = props
+
   return (
     <div>
       <Box
@@ -13,7 +20,7 @@ const Form = () => {
           p: 2,
           boxShadow: 3,
           backgroundColor: "white",
-          borderRadius: 3,
+          borderRadius: 3
         }}
       >
         <Grid2
@@ -21,7 +28,7 @@ const Form = () => {
           rowSpacing={2}
           columnSpacing={{ xs: 1, sm: 1, md: 1 }}
           sx={{
-            p: 2,
+            p: 2
           }}
         >
           <Grid2 size={12}>
@@ -39,8 +46,7 @@ const Form = () => {
           <Grid2 size={12}></Grid2>
         </Grid2>
       </Box>
-      <Question />
-      
+      <Question valid={valid} />
     </div>
   )
 }
