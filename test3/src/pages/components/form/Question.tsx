@@ -17,44 +17,64 @@ import { useActionState, useState } from "react"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { v4 as uuidv4 } from "uuid"
 
-interface validateFormProps {
-  valid?: any
+interface FormValues {
+  questionName: string
+  question: string
+  description: string
 }
 
 const QUESTION_INIT = {
-  id: 1,
+  id: "1",
   question: "",
   description: [{ id: 0, description: "" }]
 }
 
-const Question = (props: validateFormProps) => {
-  const { valid } = props
+const Question = () => {
   const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
   const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
+  const [questionNameTag, setQuestionNameTag] = useState("")
 
   const validationSchema = Yup.object({
-    question: Yup.string().required("Please fill in this option")
+    questionName: Yup.string().required("Please fill in this option"),
+    question: Yup.string().required("Please fill in this option"),
+    description: Yup.string().required("Please fill in this option")
   })
 
-  // const { handleSubmit , control} = useForm
+  const { handleSubmit, control, reset, register } = useForm<FormValues>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      questionName: "",
+      question: "",
+      description: ""
+    }
+  })
 
-  // const handleSubmit = async () => {
-  //  const validForm = await validationSchema.isValid(questions)
-  //  console.log(validForm)
-  // }
+  const [resetManual, setResetManual] = useState(false)
 
-  // handleSubmit()
+  const resetForm = () => {
+    reset()
+    // setResetManual((prevState) => !prevState)
+  }
+
+  const onSubmit = () => {}
 
   const addDescription = (index: any) => {
+    const id: any = uuidv4()
     setQuestions((prevQuestion: any) => {
       prevQuestion[index].description.push({
-        id: prevQuestion[index].description.length,
+        id: id,
         description: ""
       })
       return [...prevQuestion]
     })
+
+    console.log(questions)
+    console.log(questions[0].description[1].id)
   }
+
   const handleChangeDescription = (e: any, indexQ: any, indexD: any) => {
     setQuestions((prev: any) => {
       prev[indexQ].description[indexD] = e.target.value
@@ -64,19 +84,16 @@ const Question = (props: validateFormProps) => {
   const handleChangeQuestion = (e: any, indexQ: any) => {
     setQuestions((prev: any) => {
       prev[indexQ].question = e.target.value
-
       return [...prev]
     })
   }
+
   const addQuestion = () => {
+    const id: any = uuidv4()
     setQuestions((prev: any) => {
-      return [
-        ...prev,
-        JSON.parse(
-          JSON.stringify({ ...QUESTION_INIT, id: questions.length + 1 })
-        )
-      ]
+      return [...prev, JSON.parse(JSON.stringify({ ...QUESTION_INIT, id: id }))]
     })
+    console.log(questions)
   }
   const deleteQuestion = (index: any) => {
     if (questions.length > 1) {
@@ -110,38 +127,41 @@ const Question = (props: validateFormProps) => {
 
   return (
     <div>
-      <Box>
-        <AppBar position="static" sx={{ bgcolor: "white" }}>
-          <Toolbar sx={{ gap: 1, justifyContent: "end" }}>
-            <Button
-              variant="outlined"
-              sx={{
-                width: "89px",
-                height: "48px",
-                borderRadius: 2,
-                borderColor: "#FF5C00",
-                fontFamily: "Prompt",
-                color: "#FF5C00"
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="warning"
-              sx={{
-                width: "180px",
-                height: "48px",
-                borderRadius: 2,
-                fontFamily: "Prompt"
-              }}
-            >
-              Save
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <Stack sx={{ p:"8px" , pt:"16px" , bgcolor: "#F3F4F6" }}>
+      <AppBar position="static" sx={{ bgcolor: "white" }}>
+        <Toolbar sx={{ p: "12px", justifyContent: "end" }}>
+          <Button
+            variant="outlined"
+            onClick={() => resetForm()}
+            sx={{
+              width: "89px",
+              height: "48px",
+              borderRadius: 2,
+              borderColor: "#FF5C00",
+              fontFamily: "Prompt",
+              color: "#FF5C00"
+            }}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={handleSubmit(onSubmit)}
+            sx={{
+              width: "180px",
+              height: "48px",
+              borderRadius: 2,
+              fontFamily: "Prompt",
+              ml: "12px"
+            }}
+          >
+            Save
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Stack sx={{ p: "8px", pt: "16px", bgcolor: "#F3F4F6" }}>
         <Box
           sx={{
             mb: -1,
@@ -171,7 +191,13 @@ const Question = (props: validateFormProps) => {
               </Typography>
             </Grid2>
             <Grid2 size={12}>
-              <FormInput name="Name" label="Name*" />
+              <FormInput
+                name="questionName"
+                label="Name*"
+                control={control}
+                value={questionNameTag}
+                onChange={(e: any) => setQuestionNameTag(e.target.value)}
+              />
             </Grid2>
             <Grid2 size={12}></Grid2>
           </Grid2>
@@ -204,19 +230,20 @@ const Question = (props: validateFormProps) => {
                   fontFamily={"Prompt"}
                   sx={{ flexGrow: 1, color: "black" }}
                 >
-                  Question {QUESTION_INIT.id + questionIndex}
+                  Question {questionIndex + 1}
                 </Typography>
               </Grid2>
               <Grid2 size={12}>
                 <FormInput
-                  name="Question"
+                  name="question"
                   label="Question*"
+                  control={control}
                   onChange={(e: any) => handleChangeQuestion(e, questionIndex)}
                   value={question.question}
                 />
               </Grid2>
 
-              {question.description?.map((description: any, index: any) => (
+              {question?.description?.map((description: any, index: any) => (
                 <Grid2 size={12} key={index}>
                   <Box
                     sx={{
@@ -225,9 +252,11 @@ const Question = (props: validateFormProps) => {
                     }}
                   >
                     <Choice />
+
                     <FormInput
-                      name="Desciption"
+                      name="description"
                       label="Desciption*"
+                      control={control}
                       onChange={(e: any) =>
                         handleChangeDescription(e, questionIndex, index)
                       }
@@ -250,6 +279,7 @@ const Question = (props: validateFormProps) => {
                   </Box>
                 </Grid2>
               ))}
+
               <form>
                 <Grid2 size={12}>
                   <Button

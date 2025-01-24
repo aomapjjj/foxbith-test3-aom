@@ -13,13 +13,14 @@ import {
 import { useState } from "react"
 
 type FormInputProps = {
-  name: string
+  name?: any
   value?: string
   label: string
   onChange?: any
   addDes?: any
   helperText?: any
   control?: any
+  register?: any
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -88,25 +89,24 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, helperText, control } = props
+  const { name, label, value, onChange, control } = props
 
   const outerTheme = useTheme()
 
   return (
     <>
-      {/* <Controller
+      <Controller
         name={name}
         control={control}
-        render={(renderProps) => ( */}
+        render={(renderProps) => (
           <ThemeProvider theme={customTheme(outerTheme)}>
             <TextField
-              name={name}
-              label={label}
-              value={value}
               variant="outlined"
+              label={label}
               onChange={onChange}
-              // helperText={renderProps.fieldState.error?.message ?? null}
-              // error={!!renderProps.fieldState.error}
+              value={value}
+              helperText={value === "" ? renderProps.fieldState.error?.message : ""}
+              error={value === "" ? !!renderProps.fieldState.error : renderProps.fieldState.isValidating}
               sx={{
                 width: "100%",
                 [`& label`]: {
@@ -120,8 +120,8 @@ const FormInput = (props: FormInputProps) => {
               }}
             />
           </ThemeProvider>
-        {/* )}
-      /> */}
+        )}
+      />
     </>
   )
 }
