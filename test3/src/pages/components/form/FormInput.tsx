@@ -21,6 +21,7 @@ type FormInputProps = {
   helperText?: any
   control?: any
   register?: any
+  enableMsg?:any
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -89,7 +90,7 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, control } = props
+  const { name, label, value, onChange, control , helperText , enableMsg } = props
 
   const outerTheme = useTheme()
 
@@ -105,7 +106,7 @@ const FormInput = (props: FormInputProps) => {
               label={label}
               onChange={onChange}
               value={value}
-              helperText={value === "" ? renderProps.fieldState.error?.message : ""}
+              helperText={value === "" ? renderProps.fieldState.error?.message : helperText}
               error={value === "" ? !!renderProps.fieldState.error : renderProps.fieldState.isValidating}
               sx={{
                 width: "100%",

@@ -36,7 +36,7 @@ const Question = () => {
   const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
   const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
   const [questionNameTag, setQuestionNameTag] = useState("")
-  const [choice, setChoice] = useState()
+  const [msgchoice, setMsgChoice] = useState("")
 
   const validationSchema = Yup.object({
     questionName: Yup.string().required("Please fill in this option"),
@@ -71,13 +71,11 @@ const Question = () => {
       })
       return [...prevQuestion]
     })
-    console.log(questions)
   }
 
   const handleChangeDescription = (e: any, indexQ: any, indexD: any) => {
     setQuestions((prev: any) => {
       prev[indexQ].descriptions[indexD].description = e.target.value
-
       return [...prev]
     })
   }
@@ -123,8 +121,10 @@ const Question = () => {
 
   const handleChoice = (e: any, indexQ: any, indexD: any) => {
     setQuestions((prev: any) => {
-      prev[indexQ].descriptions[indexD].checkChoice = true
-
+      if (prev[indexQ].descriptions[indexD].description) {
+        prev[indexQ].descriptions[indexD].checkChoice = true
+        setMsgChoice("This answer is correct")
+      }
       return [...prev]
     })
   }
@@ -273,6 +273,7 @@ const Question = () => {
                           ? ""
                           : description.description
                       }
+                      helperText={description.checkChoice ? msgchoice : ""}
                       onChange={(e: any) =>
                         handleChangeDescription(e, questionIndex, index)
                       }
@@ -282,14 +283,11 @@ const Question = () => {
                         deleteDescription(questionIndex, index)
                       }}
                       sx={{
-                        color: "black"
+                        color: "black",
+                        p: 1
                       }}
                     >
-                      <DeleteOutlineIcon
-                        sx={{
-                          p: 1
-                        }}
-                      />
+                      <DeleteOutlineIcon />
                     </Button>
                   </Box>
                 </Grid2>
