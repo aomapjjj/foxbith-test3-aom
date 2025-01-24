@@ -27,15 +27,16 @@ interface FormValues {
 }
 
 const QUESTION_INIT = {
-  id: "1",
+  id: uuidv4(),
   question: "",
-  description: [{ id: 0, description: "" }]
+  descriptions: [{ id: uuidv4(), description: "", checkChoice: false }]
 }
 
 const Question = () => {
   const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
   const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
   const [questionNameTag, setQuestionNameTag] = useState("")
+  const [choice, setChoice] = useState()
 
   const validationSchema = Yup.object({
     questionName: Yup.string().required("Please fill in this option"),
@@ -56,7 +57,6 @@ const Question = () => {
 
   const resetForm = () => {
     reset()
-    // setResetManual((prevState) => !prevState)
   }
 
   const onSubmit = () => {}
@@ -64,20 +64,20 @@ const Question = () => {
   const addDescription = (index: any) => {
     const id: any = uuidv4()
     setQuestions((prevQuestion: any) => {
-      prevQuestion[index].description.push({
+      prevQuestion[index].descriptions.push({
         id: id,
-        description: ""
+        description: "",
+        checkChoice: false
       })
       return [...prevQuestion]
     })
-
     console.log(questions)
-    console.log(questions[0].description[1].id)
   }
 
   const handleChangeDescription = (e: any, indexQ: any, indexD: any) => {
     setQuestions((prev: any) => {
-      prev[indexQ].description[indexD] = e.target.value
+      prev[indexQ].descriptions[indexD].description = e.target.value
+
       return [...prev]
     })
   }
@@ -93,7 +93,6 @@ const Question = () => {
     setQuestions((prev: any) => {
       return [...prev, JSON.parse(JSON.stringify({ ...QUESTION_INIT, id: id }))]
     })
-    console.log(questions)
   }
   const deleteQuestion = (index: any) => {
     if (questions.length > 1) {
@@ -104,22 +103,29 @@ const Question = () => {
     }
   }
   const deleteDescription = (indexQ: any, indexD: any) => {
-    if (questions[indexQ].description.length > 1) {
+    if (questions[indexQ].descriptions.length > 1) {
       setQuestions((prev: any) => {
-        const updatedList = prev[indexQ].description.filter(
-          (item: any) => prev[indexQ].description[indexD] !== item
+        const updatedList = prev[indexQ].descriptions.filter(
+          (item: any) => prev[indexQ].descriptions[indexD] !== item
         )
-        console.log(updatedList)
-        prev[indexQ].description = [...updatedList]
-        console.log(prev[indexQ])
+
+        prev[indexQ].descriptions = [...updatedList]
+
         return [...prev]
       })
     }
   }
   const duplicateQuestion = (index: any) => {
     setQuestions((prev: any) => {
-      console.log("prev", prev)
       return [...prev, JSON.parse(JSON.stringify({ ...prev[index] }))]
+    })
+  }
+
+  const handleChoice = (e: any, indexQ: any, indexD: any) => {
+    setQuestions((prev: any) => {
+      prev[indexQ].descriptions[indexD].checkChoice = true
+
+      return [...prev]
     })
   }
 
@@ -243,7 +249,7 @@ const Question = () => {
                 />
               </Grid2>
 
-              {question?.description?.map((description: any, index: any) => (
+              {question?.descriptions?.map((description: any, index: any) => (
                 <Grid2 size={12} key={index}>
                   <Box
                     sx={{
@@ -251,16 +257,25 @@ const Question = () => {
                       display: "flex"
                     }}
                   >
-                    <Choice />
+                    <Choice
+                      checked={description.checkChoice}
+                      onChange={(e: any) => {
+                        handleChoice(e, questionIndex, index)
+                      }}
+                    />
 
                     <FormInput
                       name="description"
                       label="Desciption*"
                       control={control}
+                      value={
+                        typeof description.description === "object"
+                          ? ""
+                          : description.description
+                      }
                       onChange={(e: any) =>
                         handleChangeDescription(e, questionIndex, index)
                       }
-                      value={typeof description === "object" ? "" : description}
                     />
                     <Button
                       onClick={() => {
