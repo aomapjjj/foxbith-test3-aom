@@ -1,4 +1,13 @@
-import { Box, Button, Grid2, Radio, Typography } from "@mui/material"
+import {
+  AppBar,
+  Box,
+  Button,
+  Grid2,
+  Radio,
+  Stack,
+  Toolbar,
+  Typography
+} from "@mui/material"
 import FormInput from "./FormInput"
 import Choice from "./RadioChoice"
 import AddIcon from "@mui/icons-material/Add"
@@ -7,6 +16,7 @@ import AddForm from "./AddForm"
 import { useActionState, useState } from "react"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import * as Yup from "yup"
+import { useForm } from "react-hook-form"
 
 interface validateFormProps {
   valid?: any
@@ -27,13 +37,14 @@ const Question = (props: validateFormProps) => {
     question: Yup.string().required("Please fill in this option")
   })
 
-  const handleSubmit = async () => {
-   const validForm = await validationSchema.isValid(questions)
-   console.log(validForm)
-  }
+  // const { handleSubmit , control} = useForm
 
-  handleSubmit()
+  // const handleSubmit = async () => {
+  //  const validForm = await validationSchema.isValid(questions)
+  //  console.log(validForm)
+  // }
 
+  // handleSubmit()
 
   const addDescription = (index: any) => {
     setQuestions((prevQuestion: any) => {
@@ -99,14 +110,47 @@ const Question = (props: validateFormProps) => {
 
   return (
     <div>
-      {questions?.map((question: any, questionIndex: any) => (
+      <Box>
+        <AppBar position="static" sx={{ bgcolor: "white" }}>
+          <Toolbar sx={{ gap: 1, justifyContent: "end" }}>
+            <Button
+              variant="outlined"
+              sx={{
+                width: "89px",
+                height: "48px",
+                borderRadius: 2,
+                borderColor: "#FF5C00",
+                fontFamily: "Prompt",
+                color: "#FF5C00"
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              sx={{
+                width: "180px",
+                height: "48px",
+                borderRadius: 2,
+                fontFamily: "Prompt"
+              }}
+            >
+              Save
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <Stack sx={{ p:"8px" , pt:"16px" , bgcolor: "#F3F4F6" }}>
         <Box
-          key={questionIndex}
           sx={{
+            mb: -1,
             mx: 2,
+            gap: 6,
             p: 2,
             boxShadow: 3,
-            backgroundColor: "white"
+            backgroundColor: "white",
+            borderRadius: 3
           }}
         >
           <Grid2
@@ -114,98 +158,133 @@ const Question = (props: validateFormProps) => {
             rowSpacing={2}
             columnSpacing={{ xs: 1, sm: 1, md: 1 }}
             sx={{
-              p: 2,
-              pb: 2
+              p: 2
             }}
           >
-            {/* formation */}
-
             <Grid2 size={12}>
               <Typography
                 variant="h6"
                 fontFamily={"Prompt"}
                 sx={{ flexGrow: 1, color: "black" }}
               >
-                Question {QUESTION_INIT.id + questionIndex}
+                Questionnaire Detail
               </Typography>
             </Grid2>
             <Grid2 size={12}>
-              <FormInput
-                name="Question"
-                label="Question*"
-                onChange={(e: any) => handleChangeQuestion(e, questionIndex)}
-                value={question.question}
-              />
+              <FormInput name="Name" label="Name*" />
             </Grid2>
-
-            {question.description?.map((description: any, index: any) => (
-              <Grid2 size={12} key={index}>
-                <Box
-                  sx={{
-                    p: 1,
-                    display: "flex"
-                  }}
-                >
-                  <Choice />
-                  <FormInput
-                    name="Desciption"
-                    label="Desciption*"
-                    onChange={(e: any) =>
-                      handleChangeDescription(e, questionIndex, index)
-                    }
-                    value={typeof description === "object" ? "" : description}
-                  />
-                  <Button
-                    onClick={() => {
-                      deleteDescription(questionIndex, index)
-                    }}
-                    sx={{
-                      color: "black"
-                    }}
-                  >
-                    <DeleteOutlineIcon
-                      sx={{
-                        p: 1
-                      }}
-                    />
-                  </Button>
-                </Box>
-              </Grid2>
-            ))}
-            <form>
-              <Grid2 size={12}>
-                <Button
-                  color="warning"
-                  sx={{ display: "flex", gap: 1 }}
-                  onClick={() => addDescription(questionIndex)}
-                >
-                  <AddIcon />
-                  <p
-                    color="warning"
-                    style={{
-                      fontFamily: "Prompt"
-                    }}
-                  >
-                    Add Choice
-                  </p>
-                </Button>
-              </Grid2>
-            </form>
-
-            <Grid2 size={12}>
-              <ManageForm
-                onClickDelete={() => deleteQuestion(questionIndex)}
-                onClicDuplicate={() => duplicateQuestion(questionIndex)}
-              />
-            </Grid2>
-
-            {/* formation */}
+            <Grid2 size={12}></Grid2>
           </Grid2>
         </Box>
-      ))}
-      <form action={formActionsQues}>
-        <AddForm />
-      </form>
+
+        {questions?.map((question: any, questionIndex: any) => (
+          <Box
+            key={questionIndex}
+            sx={{
+              mx: 2,
+              p: 2,
+              boxShadow: 3,
+              backgroundColor: "white"
+            }}
+          >
+            <Grid2
+              container
+              rowSpacing={2}
+              columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+              sx={{
+                p: 2,
+                pb: 2
+              }}
+            >
+              {/* formation */}
+
+              <Grid2 size={12}>
+                <Typography
+                  variant="h6"
+                  fontFamily={"Prompt"}
+                  sx={{ flexGrow: 1, color: "black" }}
+                >
+                  Question {QUESTION_INIT.id + questionIndex}
+                </Typography>
+              </Grid2>
+              <Grid2 size={12}>
+                <FormInput
+                  name="Question"
+                  label="Question*"
+                  onChange={(e: any) => handleChangeQuestion(e, questionIndex)}
+                  value={question.question}
+                />
+              </Grid2>
+
+              {question.description?.map((description: any, index: any) => (
+                <Grid2 size={12} key={index}>
+                  <Box
+                    sx={{
+                      p: 1,
+                      display: "flex"
+                    }}
+                  >
+                    <Choice />
+                    <FormInput
+                      name="Desciption"
+                      label="Desciption*"
+                      onChange={(e: any) =>
+                        handleChangeDescription(e, questionIndex, index)
+                      }
+                      value={typeof description === "object" ? "" : description}
+                    />
+                    <Button
+                      onClick={() => {
+                        deleteDescription(questionIndex, index)
+                      }}
+                      sx={{
+                        color: "black"
+                      }}
+                    >
+                      <DeleteOutlineIcon
+                        sx={{
+                          p: 1
+                        }}
+                      />
+                    </Button>
+                  </Box>
+                </Grid2>
+              ))}
+              <form>
+                <Grid2 size={12}>
+                  <Button
+                    color="warning"
+                    sx={{ display: "flex", gap: 1 }}
+                    onClick={() => addDescription(questionIndex)}
+                  >
+                    <AddIcon />
+                    <p
+                      color="warning"
+                      style={{
+                        fontFamily: "Prompt"
+                      }}
+                    >
+                      Add Choice
+                    </p>
+                  </Button>
+                </Grid2>
+              </form>
+
+              <Grid2 size={12}>
+                <ManageForm
+                  onClickDelete={() => deleteQuestion(questionIndex)}
+                  onClicDuplicate={() => duplicateQuestion(questionIndex)}
+                />
+              </Grid2>
+
+              {/* formation */}
+            </Grid2>
+          </Box>
+        ))}
+        <form action={formActionsQues}>
+          <AddForm />
+        </form>
+      </Stack>
     </div>
   )
 }

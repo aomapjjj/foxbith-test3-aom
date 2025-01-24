@@ -2,6 +2,7 @@ import { colors } from "@mui/material"
 import TextField from "@mui/material/TextField"
 import styled from "styled-components"
 import { outlinedInputClasses } from "@mui/material/OutlinedInput"
+import { Controller } from "react-hook-form"
 
 import {
   createTheme,
@@ -18,6 +19,7 @@ type FormInputProps = {
   onChange?: any
   addDes?: any
   helperText?: any
+  control?: any
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -86,34 +88,40 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, helperText } = props
+  const { name, label, value, onChange, helperText, control } = props
 
   const outerTheme = useTheme()
 
   return (
     <>
-      <ThemeProvider theme={customTheme(outerTheme)}>
-        
-        <TextField
-          name={name}
-          label={label}
-          value={value}
-          variant="outlined"
-          onChange={onChange}
-          helperText={helperText}
-          sx={{
-            width: "100%",
-            [`& label`]: {
-              fontFamily: "Prompt"
-            },
-            "& .MuiOutlinedInput-root": {
-              fontFamily: "Prompt",
-              height: "48px",
-              borderRadius: "8px"
-            }
-          }}
-        />
-      </ThemeProvider>
+      {/* <Controller
+        name={name}
+        control={control}
+        render={(renderProps) => ( */}
+          <ThemeProvider theme={customTheme(outerTheme)}>
+            <TextField
+              name={name}
+              label={label}
+              value={value}
+              variant="outlined"
+              onChange={onChange}
+              // helperText={renderProps.fieldState.error?.message ?? null}
+              // error={!!renderProps.fieldState.error}
+              sx={{
+                width: "100%",
+                [`& label`]: {
+                  fontFamily: "Prompt"
+                },
+                "& .MuiOutlinedInput-root": {
+                  fontFamily: "Prompt",
+                  height: "48px",
+                  borderRadius: "8px"
+                }
+              }}
+            />
+          </ThemeProvider>
+        {/* )}
+      /> */}
     </>
   )
 }
