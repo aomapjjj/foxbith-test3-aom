@@ -1,6 +1,4 @@
-import { colors } from "@mui/material"
 import TextField from "@mui/material/TextField"
-import styled from "styled-components"
 import { outlinedInputClasses } from "@mui/material/OutlinedInput"
 import { Controller } from "react-hook-form"
 
@@ -10,7 +8,6 @@ import {
   Theme,
   useTheme
 } from "@mui/material/styles"
-import { useState } from "react"
 
 type FormInputProps = {
   name?: any
@@ -21,7 +18,7 @@ type FormInputProps = {
   helperText?: any
   control?: any
   register?: any
-  enableMsg?:any
+  enableMsg?: any
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -90,9 +87,13 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, control , helperText , enableMsg } = props
+  const { name, label, value, onChange, control, helperText, enableMsg } = props
 
   const outerTheme = useTheme()
+
+  if (!control) {
+    return null
+  }
 
   return (
     <>
@@ -106,8 +107,16 @@ const FormInput = (props: FormInputProps) => {
               label={label}
               onChange={onChange}
               value={value}
-              helperText={value === "" ? renderProps.fieldState.error?.message : helperText}
-              error={value === "" ? !!renderProps.fieldState.error : renderProps.fieldState.isValidating}
+              helperText={
+                value === ""
+                  ? renderProps.fieldState.error?.message
+                  : helperText
+              }
+              error={
+                value === ""
+                  ? !!renderProps.fieldState.error
+                  : renderProps.fieldState.isValidating
+              }
               sx={{
                 width: "100%",
                 [`& label`]: {
