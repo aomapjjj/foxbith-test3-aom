@@ -100,15 +100,14 @@ const Question = () => {
       })
     }
   }
+
   const deleteDescription = (indexQ: any, indexD: any) => {
     if (questions[indexQ].descriptions.length > 1) {
       setQuestions((prev: any) => {
         const updatedList = prev[indexQ].descriptions.filter(
           (item: any) => prev[indexQ].descriptions[indexD] !== item
         )
-
         prev[indexQ].descriptions = [...updatedList]
-
         return [...prev]
       })
     }
@@ -121,7 +120,13 @@ const Question = () => {
 
   const handleChoice = (e: any, indexQ: any, indexD: any) => {
     setQuestions((prev: any) => {
-      if (prev[indexQ].descriptions[indexD].description) {
+      const cheked = prev[indexQ].descriptions.filter((item: any) => {
+        return item.checkChoice === true
+      })
+      if (
+        prev[indexQ].descriptions[indexD].description &&
+        cheked.length === 0
+      ) {
         prev[indexQ].descriptions[indexD].checkChoice = true
         setMsgChoice("This answer is correct")
       }

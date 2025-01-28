@@ -87,7 +87,7 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, control, helperText, enableMsg } = props
+  const { name, label, value, onChange, control, helperText } = props
 
   const outerTheme = useTheme()
 
@@ -108,12 +108,12 @@ const FormInput = (props: FormInputProps) => {
               onChange={onChange}
               value={value}
               helperText={
-                value === ""
+                !value 
                   ? renderProps.fieldState.error?.message
                   : helperText
               }
               error={
-                value === ""
+                !value
                   ? !!renderProps.fieldState.error
                   : renderProps.fieldState.isValidating
               }
