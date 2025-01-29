@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField"
 import { outlinedInputClasses } from "@mui/material/OutlinedInput"
-import { Controller } from "react-hook-form"
+import { Control, Controller,  FieldValues } from "react-hook-form"
 
 import {
   createTheme,
@@ -9,16 +9,14 @@ import {
   useTheme
 } from "@mui/material/styles"
 
-type FormInputProps = {
-  name?: any
+interface FormInputProps {
+  name: string
   value?: string
   label: string
-  onChange?: any
-  addDes?: any
-  helperText?: any
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
+  helperText?: string
   control?: any
-  register?: any
-  enableMsg?: any
+
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -108,9 +106,7 @@ const FormInput = (props: FormInputProps) => {
               onChange={onChange}
               value={value}
               helperText={
-                !value 
-                  ? renderProps.fieldState.error?.message
-                  : helperText
+                !value ? renderProps.fieldState.error?.message : helperText
               }
               error={
                 !value
