@@ -4,8 +4,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 
 interface ManageProps {
   href?: string
-  onClickDelete?: any
-  onClicDuplicate?: any
+  onClickDelete?: React.MouseEventHandler<HTMLButtonElement>
+  onClicDuplicate?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const ManageForm = (props: ManageProps) => {
@@ -38,7 +38,7 @@ const ManageForm = (props: ManageProps) => {
           </p>
         </Button>
         <Button
-        onClick={onClickDelete}
+          onClick={onClickDelete}
           sx={{
             gap: 1,
             "&, &.Mui-checked": {
