@@ -10,11 +10,10 @@ import {
 } from "@mui/material"
 import FormInput from "./FormInput"
 import Choice from "./RadioChoice"
-import AddIcon from "@mui/icons-material/Add"
+import {Add ,DeleteOutline} from "@mui/icons-material"
 import ManageForm from "./ManageForm"
 import AddForm from "./AddForm"
 import { useActionState, useState } from "react"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -79,6 +78,7 @@ const Question = () => {
       return [...prev]
     })
   }
+  
   const handleChangeQuestion = (e: any, indexQ: any) => {
     setQuestions((prev: any) => {
       prev[indexQ].question = e.target.value
@@ -102,6 +102,7 @@ const Question = () => {
   }
 
   const deleteDescription = (indexQ: any, indexD: any) => {
+    console.log(questions[indexQ].descriptions[indexD])
     if (questions[indexQ].descriptions.length > 1) {
       setQuestions((prev: any) => {
         const updatedList = prev[indexQ].descriptions.filter(
@@ -292,7 +293,7 @@ const Question = () => {
                         p: 1
                       }}
                     >
-                      <DeleteOutlineIcon />
+                      <DeleteOutline />
                     </Button>
                   </Box>
                 </Grid2>
@@ -305,7 +306,7 @@ const Question = () => {
                     sx={{ display: "flex", gap: 1 }}
                     onClick={() => addDescription(questionIndex)}
                   >
-                    <AddIcon />
+                    <Add />
                     <p
                       color="warning"
                       style={{
