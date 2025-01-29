@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material"
+import { Box, Button, Divider, Typography } from "@mui/material"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy"
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 
@@ -11,8 +11,8 @@ interface ManageProps {
 const ManageForm = (props: ManageProps) => {
   const { href, onClicDuplicate, onClickDelete } = props
   return (
-    <div>
-      <hr />
+    <>
+      <Divider />
       <Box
         sx={{
           mt: 2,
@@ -29,13 +29,13 @@ const ManageForm = (props: ManageProps) => {
           }}
         >
           <ContentCopyIcon />
-          <p
+          <Typography
             style={{
               fontFamily: "Prompt"
             }}
           >
             Duplicate
-          </p>
+          </Typography>
         </Button>
         <Button
         onClick={onClickDelete}
@@ -47,16 +47,16 @@ const ManageForm = (props: ManageProps) => {
           }}
         >
           <DeleteOutlineIcon />
-          <p
+          <Typography
             style={{
               fontFamily: "Prompt"
             }}
           >
             Delete
-          </p>
+          </Typography>
         </Button>
       </Box>
-    </div>
+    </>
   )
 }
 export default ManageForm
