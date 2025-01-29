@@ -120,16 +120,12 @@ const Question = () => {
 
   const handleChoice = (e: any, indexQ: any, indexD: any) => {
     setQuestions((prev: any) => {
-      const cheked = prev[indexQ].descriptions.filter((item: any) => {
-        return item.checkChoice === true
-      })
-      if (
-        prev[indexQ].descriptions[indexD].description &&
-        cheked.length === 0
-      ) {
-        prev[indexQ].descriptions[indexD].checkChoice = true
-        setMsgChoice("This answer is correct")
-      }
+      prev[indexQ].descriptions[indexD].checkChoice = true
+      const uncheck = prev[indexQ].descriptions.filter(
+        (item: any) => prev[indexQ].descriptions[indexD] !== item
+      )
+      uncheck.map((item: any) => (item.checkChoice = false))
+      setMsgChoice("This answer is correct")
       return [...prev]
     })
   }
@@ -278,7 +274,9 @@ const Question = () => {
                           ? ""
                           : description.description
                       }
-                      helperText={description.checkChoice ? msgchoice : ""}
+                      helperText={
+                        description.checkChoice ? msgchoice : ""
+                      }
                       onChange={(e: any) =>
                         handleChangeDescription(e, questionIndex, index)
                       }
