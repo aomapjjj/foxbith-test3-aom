@@ -1,6 +1,5 @@
 import { Box, Button } from "@mui/material"
-import ContentCopyIcon from "@mui/icons-material/ContentCopy"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import {ContentCopy , DeleteOutline}from "@mui/icons-material"
 
 interface ManageProps {
   href?: string
@@ -28,7 +27,7 @@ const ManageForm = (props: ManageProps) => {
             }
           }}
         >
-          <ContentCopyIcon />
+          <ContentCopy />
           <p
             style={{
               fontFamily: "Prompt"
@@ -46,7 +45,7 @@ const ManageForm = (props: ManageProps) => {
             }
           }}
         >
-          <DeleteOutlineIcon />
+          <DeleteOutline />
           <p
             style={{
               fontFamily: "Prompt"
