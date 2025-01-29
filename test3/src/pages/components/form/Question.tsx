@@ -33,8 +33,7 @@ const QUESTION_INIT = {
 }
 
 const Question = () => {
-  const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
-  const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
+  const [questions, setQuestions] = useState<any>([{ ...QUESTION_INIT }])
   const [questionNameTag, setQuestionNameTag] = useState("")
   const [msgchoice, setMsgChoice] = useState("")
 
