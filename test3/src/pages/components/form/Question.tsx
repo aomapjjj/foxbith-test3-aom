@@ -53,7 +53,30 @@ const Question = () => {
     }
   })
 
-  const [resetManual, setResetManual] = useState(false)
+  const handleChangeDescription = (e: any, indexQ: any, indexD: any) => {
+    setQuestions((prev: any) => {
+      prev[indexQ].descriptions[indexD].description = e.target.value
+      return [...prev]
+    })
+  }
+  const handleChangeQuestion = (e: any, indexQ: any) => {
+    setQuestions((prev: any) => {
+      prev[indexQ].question = e.target.value
+      return [...prev]
+    })
+  }
+
+  const handleChoice = (indexQ: any, indexD: any) => {
+    setQuestions((prev: any) => {
+      prev[indexQ].descriptions[indexD].checkChoice = true
+      const uncheck = prev[indexQ].descriptions.filter(
+        (item: any) => prev[indexQ].descriptions[indexD] !== item
+      )
+      uncheck.map((item: any) => (item.checkChoice = false))
+      setMsgChoice("This answer is correct")
+      return [...prev]
+    })
+  }
 
   const resetForm = () => {
     reset()
@@ -73,25 +96,13 @@ const Question = () => {
     })
   }
 
-  const handleChangeDescription = (e: any, indexQ: any, indexD: any) => {
-    setQuestions((prev: any) => {
-      prev[indexQ].descriptions[indexD].description = e.target.value
-      return [...prev]
-    })
-  }
-  const handleChangeQuestion = (e: any, indexQ: any) => {
-    setQuestions((prev: any) => {
-      prev[indexQ].question = e.target.value
-      return [...prev]
-    })
-  }
-
   const addQuestion = () => {
     const id: any = uuidv4()
     setQuestions((prev: any) => {
       return [...prev, JSON.parse(JSON.stringify({ ...QUESTION_INIT, id: id }))]
     })
   }
+
   const deleteQuestion = (index: any) => {
     if (questions.length > 1) {
       setQuestions((prev: any) => {
@@ -117,24 +128,6 @@ const Question = () => {
       return [...prev, JSON.parse(JSON.stringify({ ...prev[index] }))]
     })
   }
-
-  const handleChoice = (e: any, indexQ: any, indexD: any) => {
-    setQuestions((prev: any) => {
-      const cheked = prev[indexQ].descriptions.filter((item: any) => {
-        return item.checkChoice === true
-      })
-      if (
-        prev[indexQ].descriptions[indexD].description &&
-        cheked.length === 0
-      ) {
-        prev[indexQ].descriptions[indexD].checkChoice = true
-        setMsgChoice("This answer is correct")
-      }
-      return [...prev]
-    })
-  }
-
-  const [messageQues, formActionsQues] = useActionState(addQuestion, null)
 
   return (
     <div>
@@ -265,7 +258,7 @@ const Question = () => {
                     <Choice
                       checked={description.checkChoice}
                       onChange={(e: any) => {
-                        handleChoice(e, questionIndex, index)
+                        handleChoice(questionIndex, index)
                       }}
                     />
 
@@ -329,9 +322,8 @@ const Question = () => {
             </Grid2>
           </Box>
         ))}
-        <form action={formActionsQues}>
-          <AddForm />
-        </form>
+
+        <AddForm onClick={addQuestion} />
       </Stack>
     </div>
   )
