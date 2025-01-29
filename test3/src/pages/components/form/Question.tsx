@@ -32,9 +32,16 @@ const QUESTION_INIT = {
   descriptions: [{ id: uuidv4(), description: "", checkChoice: false }]
 }
 
+interface QUESTION_INIT {
+  id: string
+  question: string,
+  descriptions: [{ id: string, description: string, checkChoice: boolean }]
+}
+
+
 const Question = () => {
   const defaultQuestion = JSON.parse(JSON.stringify({ ...QUESTION_INIT }))
-  const [questions, setQuestions] = useState<any>([{ ...defaultQuestion }])
+  const [questions, setQuestions] = useState<QUESTION_INIT[]>([{ ...defaultQuestion }])
   const [questionNameTag, setQuestionNameTag] = useState("")
   const [msgchoice, setMsgChoice] = useState("")
 
@@ -44,7 +51,7 @@ const Question = () => {
     description: Yup.string().required("Please fill in this option")
   })
 
-  const { handleSubmit, control, reset, register } = useForm<FormValues>({
+  const { handleSubmit, control, reset } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       questionName: "",
@@ -53,7 +60,6 @@ const Question = () => {
     }
   })
 
-  const [resetManual, setResetManual] = useState(false)
 
   const resetForm = () => {
     reset()
@@ -61,9 +67,9 @@ const Question = () => {
 
   const onSubmit = () => {}
 
-  const addDescription = (index: any) => {
-    const id: any = uuidv4()
-    setQuestions((prevQuestion: any) => {
+  const addDescription = (index: number) => {
+    const id: string = uuidv4()
+    setQuestions((prevQuestion: QUESTION_INIT[]) => {
       prevQuestion[index].descriptions.push({
         id: id,
         description: "",
@@ -73,35 +79,35 @@ const Question = () => {
     })
   }
 
-  const handleChangeDescription = (e: any, indexQ: any, indexD: any) => {
-    setQuestions((prev: any) => {
-      prev[indexQ].descriptions[indexD].description = e.target.value
+  const handleChangeDescription = (e: string, indexQ: number, indexD: number) => {
+    setQuestions((prev: QUESTION_INIT[]) => {
+      prev[indexQ].descriptions[indexD].description = e
       return [...prev]
     })
   }
-  const handleChangeQuestion = (e: any, indexQ: any) => {
-    setQuestions((prev: any) => {
-      prev[indexQ].question = e.target.value
+  const handleChangeQuestion = (e: string, indexQ: number) => {
+    setQuestions((prev: QUESTION_INIT[]) => {
+      prev[indexQ].question = e
       return [...prev]
     })
   }
 
   const addQuestion = () => {
-    const id: any = uuidv4()
-    setQuestions((prev: any) => {
+    const id: string = uuidv4()
+    setQuestions((prev: QUESTION_INIT[]) => {
       return [...prev, JSON.parse(JSON.stringify({ ...QUESTION_INIT, id: id }))]
     })
   }
-  const deleteQuestion = (index: any) => {
+  const deleteQuestion = (index: number) => {
     if (questions.length > 1) {
-      setQuestions((prev: any) => {
-        const updatedList = prev.filter((item: any) => prev[index] !== item)
+      setQuestions((prev: QUESTION_INIT[]) => {
+        const updatedList = prev.filter((item) => prev[index] !== item)
         return [...updatedList]
       })
     }
   }
 
-  const deleteDescription = (indexQ: any, indexD: any) => {
+  const deleteDescription = (indexQ: number, indexD: number) => {
     if (questions[indexQ].descriptions.length > 1) {
       setQuestions((prev: any) => {
         const updatedList = prev[indexQ].descriptions.filter(
@@ -112,15 +118,15 @@ const Question = () => {
       })
     }
   }
-  const duplicateQuestion = (index: any) => {
-    setQuestions((prev: any) => {
+  const duplicateQuestion = (index: number) => {
+    setQuestions((prev: QUESTION_INIT[]) => {
       return [...prev, JSON.parse(JSON.stringify({ ...prev[index] }))]
     })
   }
 
-  const handleChoice = (e: any, indexQ: any, indexD: any) => {
-    setQuestions((prev: any) => {
-      const cheked = prev[indexQ].descriptions.filter((item: any) => {
+  const handleChoice = ( indexQ: number, indexD: number) => {
+    setQuestions((prev: QUESTION_INIT[]) => {
+      const cheked = prev[indexQ].descriptions.filter((item) => {
         return item.checkChoice === true
       })
       if (
@@ -207,14 +213,14 @@ const Question = () => {
                 label="Name*"
                 control={control}
                 value={questionNameTag}
-                onChange={(e: any) => setQuestionNameTag(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuestionNameTag(e.target.value)}
               />
             </Grid2>
             <Grid2 size={12}></Grid2>
           </Grid2>
         </Box>
 
-        {questions?.map((question: any, questionIndex: any) => (
+        {questions?.map((question, questionIndex) => (
           <Box
             key={questionIndex}
             sx={{
@@ -249,12 +255,12 @@ const Question = () => {
                   name="question"
                   label="Question*"
                   control={control}
-                  onChange={(e: any) => handleChangeQuestion(e, questionIndex)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeQuestion(e.target.value, questionIndex)}
                   value={question.question}
                 />
               </Grid2>
 
-              {question?.descriptions?.map((description: any, index: any) => (
+              {question?.descriptions?.map((description, index) => (
                 <Grid2 size={12} key={index}>
                   <Box
                     sx={{
@@ -264,8 +270,8 @@ const Question = () => {
                   >
                     <Choice
                       checked={description.checkChoice}
-                      onChange={(e: any) => {
-                        handleChoice(e, questionIndex, index)
+                      onChange={() => {
+                        handleChoice(questionIndex, index)
                       }}
                     />
 
@@ -279,8 +285,8 @@ const Question = () => {
                           : description.description
                       }
                       helperText={description.checkChoice ? msgchoice : ""}
-                      onChange={(e: any) =>
-                        handleChangeDescription(e, questionIndex, index)
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleChangeDescription(e.target.value, questionIndex, index)
                       }
                     />
                     <Button
