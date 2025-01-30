@@ -1,4 +1,3 @@
-import { Stack } from "@mui/material"
 import Navbar from "./components/Navbar"
 
 import Question from "./components/form/Question"
