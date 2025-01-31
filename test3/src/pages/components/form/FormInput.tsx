@@ -16,7 +16,7 @@ interface FormInputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
   helperText?: string
   control?: any
-
+  placeholder?:string
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -85,7 +85,7 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, control, helperText } = props
+  const { name, label, value, onChange, control, helperText ,placeholder } = props
 
   const outerTheme = useTheme()
 
@@ -113,6 +113,7 @@ const FormInput = (props: FormInputProps) => {
                   ? !!renderProps.fieldState.error
                   : renderProps.fieldState.isValidating
               }
+              placeholder={placeholder}
               sx={{
                 width: "100%",
                 [`& label`]: {
