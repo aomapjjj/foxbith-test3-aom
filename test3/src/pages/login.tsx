@@ -17,21 +17,28 @@ import Logo from "./components/Logo"
 
 interface FormValues {
   email: string
+  password: string
 }
 
 const login = () => {
-  const [questionNameTag, setQuestionNameTag] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const validationSchema = Yup.object({
-    email: Yup.string().required("Please fill in this option")
+    email: Yup.string().required("Please fill in this option"),
+    password: Yup.string().required("Please fill in this option")
   })
 
   const { handleSubmit, control, reset } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      email: ""
+      email: "",
+      password:""
     }
   })
+
+  const onSubmit = () => {}
+
 
   return (
     <>
@@ -88,9 +95,9 @@ const login = () => {
                     name="email"
                     label="Email*"
                     control={control}
-                    value={questionNameTag}
+                    value={email}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setQuestionNameTag(e.target.value)
+                      setEmail(e.target.value)
                     }
                     placeholder="Enter Email"
                   />
@@ -102,12 +109,13 @@ const login = () => {
                   }}
                 >
                   <FormInput
-                    name="Password"
+                    name="password"
                     label="Password*"
+                    type="password"
                     control={control}
-                    value={questionNameTag}
+                    value={password}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setQuestionNameTag(e.target.value)
+                      setPassword(e.target.value)
                     }
                     placeholder="Enter Password"
                   />
@@ -123,6 +131,7 @@ const login = () => {
                   <Button
                     variant="contained"
                     color="warning"
+                    onClick={handleSubmit(onSubmit)}
                     sx={{
                       width: "100%",
                       height: "48px",
@@ -167,16 +176,19 @@ const login = () => {
                     sx={{
                       width: "100%",
                       height: "48px",
-                      borderRadius: 2,
-              
+                      borderRadius: 2
                     }}
                   >
                     <GoogleIcon />
-                    <Typography fontFamily={"Prompt"} fontWeight={300} sx={{
-                      pl:3
-                    }}>
-                  Continue with Google
-                  </Typography>
+                    <Typography
+                      fontFamily={"Prompt"}
+                      fontWeight={300}
+                      sx={{
+                        pl: 3
+                      }}
+                    >
+                      Continue with Google
+                    </Typography>
                   </Button>
                 </Box>
               </Grid2>
