@@ -7,13 +7,16 @@ import {
   Chip,
   Stack
 } from "@mui/material"
-import FormInput from "./components/form/FormInput"
-import { useState } from "react"
+import FormInput from "../components/form/FormInput"
+import { useEffect, useState } from "react"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import GoogleIcon from "@mui/icons-material/Google"
-import Logo from "./components/Logo"
+import Logo from "../components/Logo"
+import { signInWithPopup } from "firebase/auth"
+import { auth, provider } from "@/firebase"
+import { useRouter } from "next/router"
 
 interface FormValues {
   email: string
@@ -21,8 +24,32 @@ interface FormValues {
 }
 
 const login = () => {
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [value, setValue] = useState<any>("")
+
+  const handleClick = async () => {
+    signInWithPopup(auth, provider).then((data: any) => {
+      if(data){
+        localStorage.setItem("email", data.user.email)
+        localStorage.setItem("accessToken", data.user.accessToken)
+        localStorage.setItem("displayName", data.user.displayName)
+        router.push("/question")
+      }else{
+        router.push("/login")
+      }
+     
+    })
+  }
+
+  useEffect(() => {
+    setValue(localStorage.getItem("email"))
+    setValue(localStorage.getItem("accessToken"))
+    setValue(localStorage.getItem("displayName"))
+  })
+
+
 
   const validationSchema = Yup.object({
     email: Yup.string().required("Please fill in this option"),
@@ -33,16 +60,15 @@ const login = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       email: "",
-      password:""
+      password: ""
     }
   })
 
   const onSubmit = () => {}
 
-
   return (
     <>
-      <Stack sx={{ p: "8px", bgcolor: "#F3F4F6", height: "100%" }}>
+      <Stack sx={{ p: "8px", pb: "150px", bgcolor: "#F3F4F6", height: "100%" }}>
         <Box
           sx={{
             display: "flex",
@@ -173,6 +199,7 @@ const login = () => {
                   <Button
                     variant="contained"
                     color="error"
+                    onClick={handleClick}
                     sx={{
                       width: "100%",
                       height: "48px",

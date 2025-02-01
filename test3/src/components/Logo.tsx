@@ -1,5 +1,5 @@
 import Image from "next/image"
-import logo from "../../../public/logo.svg"
+import logo from "../../public/logo.svg"
 
 const Logo = () => {
   return (
@@ -7,7 +7,7 @@ const Logo = () => {
       <Image
         alt="Logo"
         src={logo}
-       
+        priority={true}
         style={{
           width: "200px",
           height: "80px"

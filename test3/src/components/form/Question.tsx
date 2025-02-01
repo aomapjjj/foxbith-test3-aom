@@ -12,7 +12,7 @@ import Choice from "./RadioChoice"
 import { Add, DeleteOutline } from "@mui/icons-material"
 import ManageForm from "./ManageForm"
 import AddForm from "./AddForm"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -43,7 +43,7 @@ const Question = () => {
   ])
   const [questionNameTag, setQuestionNameTag] = useState("")
   const [msgchoice, setMsgChoice] = useState("")
-
+ 
   const validationSchema = Yup.object({
     questionName: Yup.string().required("Please fill in this option"),
     question: Yup.string().required("Please fill in this option"),

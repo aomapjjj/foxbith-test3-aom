@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material"
-import Navbar from "./components/Navbar"
+import Navbar from "../components/Navbar"
 
-import Question from "./components/form/Question"
+import Question from "../components/form/Question"
 
 const index = () => {
   return (
