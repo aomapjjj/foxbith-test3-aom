@@ -43,10 +43,10 @@ export default function App() {
             >
               🦊 Foxbith Questionnaire
             </Typography>
-            <Typography fontFamily={"Prompt"} sx={{ color: "black" }}>
+            <Typography fontFamily={"Prompt"} sx={{ color: "black"  , mr: 3}}>
               {email}
             </Typography>
-            <Button color="warning" onClick={logout}>
+            <Button variant="outlined" color="warning" onClick={logout}>
               Log out
             </Button>
           </Toolbar>
