@@ -19,6 +19,8 @@ import { auth, provider } from "@/firebase"
 import { useRouter } from "next/router"
 import Link from "next/link"
 
+
+
 interface FormValues {
   email: string
   password: string
@@ -91,7 +93,7 @@ const login = () => {
               width: "450px",
               boxShadow: 3,
               borderRadius: "8px",
-              mt:10
+              mt: 10
             }}
           >
             <Grid2
