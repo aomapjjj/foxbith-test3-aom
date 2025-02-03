@@ -14,9 +14,10 @@ import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import GoogleIcon from "@mui/icons-material/Google"
 import Logo from "../components/Logo"
-import { signInWithPopup } from "firebase/auth"
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { auth, provider } from "@/firebase"
 import { useRouter } from "next/router"
+import Link from "next/link"
 
 interface FormValues {
   email: string
@@ -29,17 +30,27 @@ const login = () => {
   const [password, setPassword] = useState("")
   const [value, setValue] = useState<any>("")
 
+  const handleLogin = async (e: any) => {
+    e.preventDefault()
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      console.log("User logged in Successfully")
+      router.push("/question")
+    } catch (error: any) {
+      console.log(error.message)
+    }
+  }
+
   const handleClick = async () => {
     signInWithPopup(auth, provider).then((data: any) => {
-      if(data){
+      if (data) {
         localStorage.setItem("email", data.user.email)
         localStorage.setItem("accessToken", data.user.accessToken)
         localStorage.setItem("displayName", data.user.displayName)
         router.push("/question")
-      }else{
+      } else {
         router.push("/login")
       }
-     
     })
   }
 
@@ -48,8 +59,6 @@ const login = () => {
     setValue(localStorage.getItem("accessToken"))
     setValue(localStorage.getItem("displayName"))
   })
-
-
 
   const validationSchema = Yup.object({
     email: Yup.string().required("Please fill in this option"),
@@ -68,7 +77,7 @@ const login = () => {
 
   return (
     <>
-      <Stack sx={{ p: "8px", pb: "150px", bgcolor: "#F3F4F6", height: "100%" }}>
+      <Stack>
         <Box
           sx={{
             display: "flex",
@@ -77,12 +86,12 @@ const login = () => {
         >
           <Box
             sx={{
-              my: 14,
               display: "flex",
-              backgroundColor: "white",
+              backgroundColor: "#F3F4F6",
               width: "450px",
               boxShadow: 3,
-              borderRadius: "8px"
+              borderRadius: "8px",
+              mt:10
             }}
           >
             <Grid2
@@ -103,13 +112,13 @@ const login = () => {
                     <Logo />
                   </Box>
                 </Grid2>
-
                 <Grid2 size={12}>
                   <Typography fontFamily={"Prompt"} sx={{ color: "black" }}>
-                    Don't have an account? Sign up
+                    Don't have an account? <Link href="/signup"> Sign up </Link>
                   </Typography>
                 </Grid2>
               </Box>
+
               <Grid2 size={12}>
                 <Box
                   sx={{
@@ -131,7 +140,7 @@ const login = () => {
                 <Box
                   sx={{
                     px: "24px",
-                    pb: "12px"
+                    mb: "12px"
                   }}
                 >
                   <FormInput
@@ -147,28 +156,30 @@ const login = () => {
                   />
                 </Box>
               </Grid2>
-              <Grid2 size={12}>
-                <Box
-                  sx={{
-                    px: "24px",
-                    py: "12px"
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="warning"
-                    onClick={handleSubmit(onSubmit)}
+              <form onSubmit={handleLogin}>
+                <Grid2 size={12}>
+                  <Box
                     sx={{
-                      width: "100%",
-                      height: "48px",
-                      borderRadius: 2,
-                      fontFamily: "Prompt"
+                      width: "400px",
+                      py: "12px"
                     }}
                   >
-                    Login
-                  </Button>
-                </Box>
-              </Grid2>
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      type="submit"
+                      sx={{
+                        width: "100%",
+                        height: "48px",
+                        borderRadius: 2,
+                        fontFamily: "Prompt"
+                      }}
+                    >
+                      Login
+                    </Button>
+                  </Box>
+                </Grid2>
+              </form>
               <Grid2 size={12}>
                 <Box
                   sx={{
@@ -193,7 +204,7 @@ const login = () => {
                   sx={{
                     px: "24px",
                     py: "12px",
-                    pb: "46px"
+                    pb: "30px"
                   }}
                 >
                   <Button
