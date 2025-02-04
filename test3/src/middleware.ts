@@ -6,15 +6,15 @@ export default function middleware(req: NextRequest) {
   
   if (
     (!verify && url.includes("/question")) ||
-    url === "http://localhost:3000/"
+    req.nextUrl.pathname.endsWith('/')
   ) {
-    return NextResponse.redirect("http://localhost:3000/login")
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
   if (
-    (verify && url === "http://localhost:3000/login") ||
-    url === "http://localhost:3000/"
+    (verify && url.includes("/login")) ||
+    req.nextUrl.pathname.endsWith('/')
   ) {
-    return NextResponse.redirect("http://localhost:3000/question")
+    return NextResponse.redirect(new URL('/question', req.url))
   }
 }
