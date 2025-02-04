@@ -1,13 +1,20 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export function middleware(request: NextRequest) {
+export default function middleware(req: NextRequest) {
+  let verify = req.cookies.get("loggedin")
+  let url = req.url
+  
+  if (
+    (!verify && url.includes("/question")) ||
+    url === "http://localhost:3000/"
+  ) {
+    return NextResponse.redirect("http://localhost:3000/login")
+  }
 
-  return NextResponse.redirect(new URL("/login", request.url))
-
-}
-
-// See "Matching Paths" below to learn more
-export const config = {
-  matcher: ["/"]
+  if (
+    (verify && url === "http://localhost:3000/login") ||
+    url === "http://localhost:3000/"
+  ) {
+    return NextResponse.redirect("http://localhost:3000/question")
+  }
 }

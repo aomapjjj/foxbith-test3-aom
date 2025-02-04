@@ -18,8 +18,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { auth, provider } from "@/firebase"
 import { useRouter } from "next/router"
 import Link from "next/link"
-
-
+import Cookies from "js-cookie"
 
 interface FormValues {
   email: string
@@ -33,10 +32,13 @@ const login = () => {
   const [value, setValue] = useState<any>("")
 
   const handleLogin = async (e: any) => {
+    
     e.preventDefault()
     try {
       await signInWithEmailAndPassword(auth, email, password)
-      console.log("User logged in Successfully")
+      localStorage.setItem("email", email)
+      localStorage.setItem("password", password)
+      Cookies.set("loggedin", "true")
       router.push("/question")
     } catch (error: any) {
       console.log(error.message)
@@ -44,16 +46,23 @@ const login = () => {
   }
 
   const handleClick = async () => {
-    signInWithPopup(auth, provider).then((data: any) => {
-      if (data) {
-        localStorage.setItem("email", data.user.email)
-        localStorage.setItem("accessToken", data.user.accessToken)
-        localStorage.setItem("displayName", data.user.displayName)
-        router.push("/question")
-      } else {
-        router.push("/login")
-      }
-    })
+   
+    try {
+      signInWithPopup(auth, provider).then((data: any) => {
+        if (data) {
+          localStorage.setItem("email", data.user.email)
+          localStorage.setItem("accessToken", data.user.accessToken)
+          localStorage.setItem("displayName", data.user.displayName)
+          Cookies.set("loggedin", "true")
+        
+          router.push("/question")
+        } else {
+          router.push("/login")
+        }
+      })
+    } catch {
+      console.log("error นะจ้ะ")
+    }
   }
 
   useEffect(() => {

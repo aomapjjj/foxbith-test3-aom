@@ -1,6 +1,6 @@
 import { Box, Typography, Button, Grid2, Stack } from "@mui/material"
 import FormInput from "../components/form/FormInput"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
@@ -8,8 +8,8 @@ import Logo from "../components/Logo"
 import { auth, provider, db } from "@/firebase"
 import { useRouter } from "next/router"
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import { toast } from "react-toastify"
 import { setDoc, doc } from "firebase/firestore"
+import Cookies from "js-cookie"
 
 interface FormValues {
   email: string
@@ -22,9 +22,9 @@ const signup = () => {
   const [password, setPassword] = useState("")
   const [fname, setFname] = useState("")
   const [lname, setLname] = useState("")
-  const [token, setToken] = useState("")
 
   const handleRegister = async (e: any) => {
+   
     e.preventDefault()
     try {
       await createUserWithEmailAndPassword(auth, email, password)
@@ -37,6 +37,10 @@ const signup = () => {
           firstName: fname,
           lastName: lname
         })
+        localStorage.setItem("email", email)
+        localStorage.setItem("password", password)
+        Cookies.set("loggedin", "true")
+        router.push("/question")
       }
       console.log("User Registered Successfully!!")
     } catch (error: any) {
@@ -61,7 +65,7 @@ const signup = () => {
 
   return (
     <>
-      <Stack >
+      <Stack>
         <form onSubmit={handleRegister}>
           <Box
             sx={{

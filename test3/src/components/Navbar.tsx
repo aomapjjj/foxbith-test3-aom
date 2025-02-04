@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { signOut } from "firebase/auth"
 import { auth, provider } from "@/firebase"
+import Cookies from "js-cookie"
 
 interface User {
   email: string
@@ -27,6 +28,7 @@ export default function App() {
 
   const logout = () => {
     localStorage.clear()
+    Cookies.remove("loggedin")
     signOut(auth)
     router.push("/login")
   }
