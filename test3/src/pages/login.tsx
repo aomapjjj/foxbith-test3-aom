@@ -32,7 +32,6 @@ const login = () => {
   const [value, setValue] = useState<any>("")
 
   const handleLogin = async (e: any) => {
-    
     e.preventDefault()
     try {
       await signInWithEmailAndPassword(auth, email, password)
@@ -46,7 +45,6 @@ const login = () => {
   }
 
   const handleClick = async () => {
-   
     try {
       signInWithPopup(auth, provider).then((data: any) => {
         if (data) {
@@ -54,14 +52,14 @@ const login = () => {
           localStorage.setItem("accessToken", data.user.accessToken)
           localStorage.setItem("displayName", data.user.displayName)
           Cookies.set("loggedin", "true")
-        
+
           router.push("/question")
         } else {
           router.push("/login")
         }
       })
     } catch {
-      console.log("error นะจ้ะ")
+      console.log("error")
     }
   }
 

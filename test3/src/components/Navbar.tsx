@@ -22,9 +22,14 @@ export default function App() {
   const [name, setName] = useState<string>("")
 
   useEffect(() => {
+    return () => {
     setEmail(localStorage.getItem("email") || "")
     setName(localStorage.getItem("displayName") || "")
+    }
   })
+
+  
+
 
   const logout = () => {
     localStorage.clear()

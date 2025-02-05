@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import Logo from "../components/Logo"
-import { auth, provider, db } from "@/firebase"
+import { auth, db } from "@/firebase"
 import { useRouter } from "next/router"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { setDoc, doc } from "firebase/firestore"
@@ -24,12 +24,10 @@ const signup = () => {
   const [lname, setLname] = useState("")
 
   const handleRegister = async (e: any) => {
-   
     e.preventDefault()
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       const user = auth.currentUser
-      console.log(user)
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
