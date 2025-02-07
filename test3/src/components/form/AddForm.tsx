@@ -1,9 +1,12 @@
 import { Box, Button } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 
+interface AddFormProps {
+  onClick : React.MouseEventHandler<HTMLButtonElement>
+}
 
-
-const AddForm = () => {
+const AddForm = (props: AddFormProps) => {
+  const { onClick } = props
   return (
     <div>
       <Box
@@ -16,6 +19,7 @@ const AddForm = () => {
         }}
       >
         <Button
+          onClick={onClick}
           color="warning"
           variant="outlined"
           sx={{

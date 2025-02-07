@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField"
 import { outlinedInputClasses } from "@mui/material/OutlinedInput"
-import { Controller } from "react-hook-form"
+import { Control, Controller,  FieldValues } from "react-hook-form"
 
 import {
   createTheme,
@@ -9,16 +9,15 @@ import {
   useTheme
 } from "@mui/material/styles"
 
-type FormInputProps = {
-  name?: any
+interface FormInputProps {
+  name: string
   value?: string
   label: string
-  onChange?: any
-  addDes?: any
-  helperText?: any
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
+  helperText?: string
   control?: any
-  register?: any
-  enableMsg?: any
+  placeholder?:string,
+  type?:string
 }
 const customTheme = (outerTheme: Theme) =>
   createTheme({
@@ -87,7 +86,7 @@ const customTheme = (outerTheme: Theme) =>
   })
 
 const FormInput = (props: FormInputProps) => {
-  const { name, label, value, onChange, control, helperText } = props
+  const { name, label, value, onChange, control, helperText ,placeholder , type} = props
 
   const outerTheme = useTheme()
 
@@ -106,17 +105,17 @@ const FormInput = (props: FormInputProps) => {
               variant="outlined"
               label={label}
               onChange={onChange}
+              type={type}
               value={value}
               helperText={
-                !value 
-                  ? renderProps.fieldState.error?.message
-                  : helperText
+                !value ? renderProps.fieldState.error?.message : helperText
               }
               error={
                 !value
                   ? !!renderProps.fieldState.error
                   : renderProps.fieldState.isValidating
               }
+              placeholder={placeholder}
               sx={{
                 width: "100%",
                 [`& label`]: {

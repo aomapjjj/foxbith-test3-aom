@@ -17,6 +17,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/components/test/FormTest.js", "src/pages/components/test/yupSchema.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/components/test/FormTest.js",
+    "src/components/test/yupSchema.js"
+, "src/context/AuthContext.js"  ],
   "exclude": ["node_modules"]
 }

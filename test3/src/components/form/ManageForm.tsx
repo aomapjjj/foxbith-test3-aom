@@ -1,18 +1,16 @@
-import { Box, Button } from "@mui/material"
-import ContentCopyIcon from "@mui/icons-material/ContentCopy"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import { Box, Button, Divider, Typography } from "@mui/material"
+import { ContentCopy, DeleteOutline } from "@mui/icons-material"
 
 interface ManageProps {
-  href?: string
-  onClickDelete?: any
-  onClicDuplicate?: any
+  onClickDelete?: React.MouseEventHandler<HTMLButtonElement>
+  onClicDuplicate?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const ManageForm = (props: ManageProps) => {
-  const { href, onClicDuplicate, onClickDelete } = props
+  const { onClicDuplicate, onClickDelete } = props
   return (
-    <div>
-      <hr />
+    <>
+      <Divider />
       <Box
         sx={{
           mt: 2,
@@ -28,17 +26,17 @@ const ManageForm = (props: ManageProps) => {
             }
           }}
         >
-          <ContentCopyIcon />
-          <p
+          <ContentCopy />
+          <Typography
             style={{
               fontFamily: "Prompt"
             }}
           >
             Duplicate
-          </p>
+          </Typography>
         </Button>
         <Button
-        onClick={onClickDelete}
+          onClick={onClickDelete}
           sx={{
             gap: 1,
             "&, &.Mui-checked": {
@@ -46,17 +44,17 @@ const ManageForm = (props: ManageProps) => {
             }
           }}
         >
-          <DeleteOutlineIcon />
-          <p
+          <DeleteOutline />
+          <Typography
             style={{
               fontFamily: "Prompt"
             }}
           >
             Delete
-          </p>
+          </Typography>
         </Button>
       </Box>
-    </div>
+    </>
   )
 }
 export default ManageForm
