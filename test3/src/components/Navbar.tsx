@@ -5,31 +5,16 @@ import { signOut } from "firebase/auth"
 import { auth, provider } from "@/firebase"
 import Cookies from "js-cookie"
 
-interface User {
-  email: string
-  displayName: string
-}
-
-const USER_INIT = {
-  email: "",
-  displayName: ""
-}
 
 export default function App() {
   const router = useRouter()
-  const [user, setUser] = useState<User>({ ...USER_INIT })
   const [email, setEmail] = useState<string>("")
   const [name, setName] = useState<string>("")
 
   useEffect(() => {
-    return () => {
     setEmail(localStorage.getItem("email") || "")
     setName(localStorage.getItem("displayName") || "")
-    }
-  })
-
-  
-
+  }, [email , name])
 
   const logout = () => {
     localStorage.clear()
@@ -50,7 +35,7 @@ export default function App() {
             >
               🦊 Foxbith Questionnaire
             </Typography>
-            <Typography fontFamily={"Prompt"} sx={{ color: "black"  , mr: 3}}>
+            <Typography fontFamily={"Prompt"} sx={{ color: "black", mr: 3 }}>
               {email}
             </Typography>
             <Button variant="outlined" color="warning" onClick={logout}>
