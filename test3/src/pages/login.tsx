@@ -38,7 +38,7 @@ const login = () => {
       localStorage.setItem("email", email)
       localStorage.setItem("password", password)
       Cookies.set("loggedin", "true")
-      router.push("/question")
+      router.push("/home")
     } catch (error: any) {
       console.log(error.message)
     }
@@ -53,7 +53,7 @@ const login = () => {
           localStorage.setItem("displayName", data.user.displayName)
           Cookies.set("loggedin", "true")
 
-          router.push("/question")
+          router.push("/home")
         } else {
           router.push("/login")
         }

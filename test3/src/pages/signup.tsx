@@ -38,7 +38,7 @@ const signup = () => {
         localStorage.setItem("email", email)
         localStorage.setItem("password", password)
         Cookies.set("loggedin", "true")
-        router.push("/question")
+        router.push("/home")
       }
       console.log("User Registered Successfully!!")
     } catch (error: any) {
