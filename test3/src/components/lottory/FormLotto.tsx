@@ -1,13 +1,6 @@
 import { Box, CircularProgress, Grid2, Typography } from "@mui/material"
 import axios from "axios"
-import {
-  JSXElementConstructor,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useState
-} from "react"
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 interface LOTTO {
@@ -16,63 +9,6 @@ interface LOTTO {
     round: number
     value: string
   }[]
-
-  // second: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
-  // third: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
-  // fourth: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
-  // fifth: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
-  // last2: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
-  // last3f: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
-  // last3b: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
-  // near1: {
-  //   price: string
-  //   number: {
-  //     round: number
-  //     value: string
-  //   }[]
-  // }
 }
 
 const LOTTO_INIT = {
@@ -83,85 +19,13 @@ const LOTTO_INIT = {
       value: ""
     }
   ]
-  // second: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // },
-  // third: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // },
-  // fourth: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // },
-  // fifth: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // },
-  // last2: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // },
-  // last3f: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // },
-  // last3b: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // },
-  // near1: {
-  //   price: "",
-  //   number: [
-  //     {
-  //       round: 0,
-  //       value: ""
-  //     }
-  //   ]
-  // }
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_URL
 
 const FormLotto = () => {
   const [dataset, setData] = useState<boolean>(false)
-  const [lottory1, setLottory1] = useState<any>([{ ...LOTTO_INIT }])
+  const [lottory1, setLottory1] = useState<LOTTO[]>([{ ...LOTTO_INIT }])
   const [lottoryNear1, setLottoryNear1] = useState<LOTTO[]>([{ ...LOTTO_INIT }])
   const [lottory2, setLottory2] = useState<LOTTO[]>([{ ...LOTTO_INIT }])
   const [lottory3, setLottory3] = useState<LOTTO[]>([{ ...LOTTO_INIT }])
@@ -197,67 +61,67 @@ const FormLotto = () => {
   })
 
   if (data && dataset === false) {
-    setLottory1((prev: any) => {
+    setLottory1((prev: LOTTO[]) => {
       const lotto = [data.data.first]
       prev = [...lotto]
       return prev
     })
-    setLottoryNear1((prev: any) => {
+    setLottoryNear1((prev: LOTTO[]) => {
       const lotto = [data.data.near1]
       prev = [...lotto]
       return prev
     })
-    setLottory2((prev: any) => {
+    setLottory2((prev: LOTTO[]) => {
       const lotto = [data.data.second]
       prev = [...lotto]
       return prev
     })
-    setLottory3((prev: any) => {
+    setLottory3((prev: LOTTO[]) => {
       const lotto = [data.data.third]
       prev = [...lotto]
       return prev
     })
-    setLottory4((prev: any) => {
+    setLottory4((prev: LOTTO[]) => {
       const lotto = [data.data.fourth]
       prev = [...lotto]
       return prev
     })
-    setLottory5((prev: any) => {
+    setLottory5((prev: LOTTO[]) => {
       const lotto = [data.data.fifth]
       prev = [...lotto]
       return prev
     })
-    setLottoryL2((prev: any) => {
+    setLottoryL2((prev: LOTTO[]) => {
       const lotto = [data.data.last2]
       prev = [...lotto]
       return prev
     })
-    setLottoryL3F((prev: any) => {
+    setLottoryL3F((prev: LOTTO[]) => {
       const lotto = [data.data.last3f]
       prev = [...lotto]
       return prev
     })
-    setLottoryL3B((prev: any) => {
+    setLottoryL3B((prev: LOTTO[]) => {
       const lotto = [data.data.last3b]
       prev = [...lotto]
       return prev
     })
-    setLottoryStraight3((prev: any) => {
+    setLottoryStraight3((prev: LOTTO[]) => {
       const lotto = [data.n3.straight3]
       prev = [...lotto]
       return prev
     })
-    setLottoryStraight2((prev: any) => {
+    setLottoryStraight2((prev: LOTTO[]) => {
       const lotto = [data.n3.straight2]
       prev = [...lotto]
       return prev
     })
-    setLottoryShuffle3((prev: any) => {
+    setLottoryShuffle3((prev: LOTTO[]) => {
       const lotto = [data.n3.shuffle3]
       prev = [...lotto]
       return prev
     })
-    setLottorySpecial((prev: any) => {
+    setLottorySpecial((prev: LOTTO[]) => {
       const lotto = [data.n3.special]
       prev = [...lotto]
       return prev
@@ -308,7 +172,7 @@ const FormLotto = () => {
             justifyContent: "center"
           }}
         >
-          {lottory1?.map((lotto: any, index: number) => (
+          {lottory1?.map((lotto, index: number) => (
             <Box
               key={index}
               sx={{
@@ -365,7 +229,7 @@ const FormLotto = () => {
                 justifyItems: "center"
               }}
             >
-              {lottoryL3F?.map((lotto: any, index: number) => (
+              {lottoryL3F?.map((lotto, index: number) => (
                 <Box
                   key={index}
                   sx={{
@@ -389,7 +253,7 @@ const FormLotto = () => {
                   >
                     เลขหน้า 3 ตัว
                   </Typography>
-                  {lotto?.number.map((lotto: any, index: number) => (
+                  {lotto?.number.map((lotto, index: number) => (
                     <Typography
                       key={index}
                       variant="h4"
@@ -425,7 +289,7 @@ const FormLotto = () => {
                 justifyItems: "center"
               }}
             >
-              {lottoryL3B?.map((lotto: any, index: number) => (
+              {lottoryL3B?.map((lotto, index: number) => (
                 <Box
                   key={index}
                   sx={{
@@ -449,7 +313,7 @@ const FormLotto = () => {
                   >
                     เลขหน้า 3 ตัว
                   </Typography>
-                  {lotto?.number.map((lotto: any, index: number) => (
+                  {lotto?.number.map((lotto, index: number) => (
                     <Typography
                       key={index}
                       variant="h4"
@@ -485,7 +349,7 @@ const FormLotto = () => {
                 justifyItems: "center"
               }}
             >
-              {lottoryL2?.map((lotto: any, index: number) => (
+              {lottoryL2?.map((lotto, index: number) => (
                 <Box
                   key={index}
                   sx={{
@@ -509,7 +373,7 @@ const FormLotto = () => {
                   >
                     เลขท้าย 2 ตัว
                   </Typography>
-                  {lotto?.number.map((lotto: any, index: number) => (
+                  {lotto?.number.map((lotto, index: number) => (
                     <Typography
                       key={index}
                       variant="h4"
@@ -550,7 +414,7 @@ const FormLotto = () => {
                 justifyItems: "center"
               }}
             >
-              {lottoryStraight3?.map((lotto: any, index: number) => (
+              {lottoryStraight3?.map((lotto, index: number) => (
                 <Box
                   key={index}
                   sx={{
@@ -574,7 +438,7 @@ const FormLotto = () => {
                   >
                     รางวัลสามตรง
                   </Typography>
-                  {lotto?.number.map((lotto: any, index: number) => (
+                  {lotto?.number.map((lotto, index: number) => (
                     <Typography
                       key={index}
                       variant="h4"
@@ -610,7 +474,7 @@ const FormLotto = () => {
                 justifyItems: "center"
               }}
             >
-              {lottoryShuffle3?.map((lotto: any, index: number) => (
+              {lottoryShuffle3?.map((lotto, index: number) => (
                 <Box
                   key={index}
                   sx={{
@@ -634,7 +498,7 @@ const FormLotto = () => {
                   >
                     รางวัลสามสลับหลัก
                   </Typography>
-                  {lotto?.number.map((lotto: any, index: number) => (
+                  {lotto?.number.map((lotto, index: number) => (
                     <Typography
                       key={index}
                       variant="h4"
@@ -670,7 +534,7 @@ const FormLotto = () => {
                 justifyItems: "center"
               }}
             >
-              {lottoryStraight2?.map((lotto: any, index: number) => (
+              {lottoryStraight2?.map((lotto, index: number) => (
                 <Box
                   key={index}
                   sx={{
@@ -694,7 +558,7 @@ const FormLotto = () => {
                   >
                     รางวัลสองตรง
                   </Typography>
-                  {lotto?.number.map((lotto: any, index: number) => (
+                  {lotto?.number.map((lotto, index: number) => (
                     <Typography
                       key={index}
                       variant="h4"
@@ -730,7 +594,7 @@ const FormLotto = () => {
                 justifyItems: "center"
               }}
             >
-              {lottorySecial?.map((lotto: any, index: number) => (
+              {lottorySecial?.map((lotto, index: number) => (
                 <Box
                   key={index}
                   sx={{
@@ -754,7 +618,7 @@ const FormLotto = () => {
                   >
                     รางวัลพิเศษ
                   </Typography>
-                  {lotto?.number.map((lotto: any, index: number) => (
+                  {lotto?.number.map((lotto, index: number) => (
                     <Typography
                       key={index}
                       variant="h4"
@@ -793,7 +657,7 @@ const FormLotto = () => {
             justifyContent: "center"
           }}
         >
-          {lottoryNear1?.map((lotto: any, index: number) => (
+          {lottoryNear1?.map((lotto, index: number) => (
             <Box
               sx={{
                 boxShadow: 3,
@@ -821,7 +685,7 @@ const FormLotto = () => {
                   justifyContent: "center"
                 }}
               >
-                {lotto?.number.map((lotto: any, index: number) => (
+                {lotto?.number.map((lotto, index: number) => (
                   <Grid2 size={6} sx={{ pl: 6 }}>
                     <Typography
                       key={index}
@@ -859,7 +723,7 @@ const FormLotto = () => {
             justifyContent: "center"
           }}
         >
-          {lottory2?.map((lotto: any, index: number) => (
+          {lottory2?.map((lotto, index: number) => (
             <Box
               key={index}
               sx={{
@@ -890,7 +754,7 @@ const FormLotto = () => {
                   gap: 2
                 }}
               >
-                {lotto?.number.map((lotto: any, index: number) => (
+                {lotto?.number.map((lotto, index: number) => (
                   <Grid2
                     size={2}
                     sx={{
@@ -933,7 +797,7 @@ const FormLotto = () => {
             justifyContent: "center"
           }}
         >
-          {lottory3?.map((lotto: any, index: number) => (
+          {lottory3?.map((lotto, index: number) => (
             <Box
               key={index}
               sx={{
@@ -964,7 +828,7 @@ const FormLotto = () => {
                   gap: 2
                 }}
               >
-                {lotto?.number.map((lotto: any, index: number) => (
+                {lotto?.number.map((lotto, index: number) => (
                   <Grid2
                     size={2}
                     sx={{
@@ -1008,7 +872,7 @@ const FormLotto = () => {
             justifyContent: "center"
           }}
         >
-          {lottory4?.map((lotto: any, index: number) => (
+          {lottory4?.map((lotto, index: number) => (
             <Box
               key={index}
               sx={{
@@ -1039,7 +903,7 @@ const FormLotto = () => {
                   gap: 2
                 }}
               >
-                {lotto?.number.map((lotto: any, index: number) => (
+                {lotto?.number.map((lotto, index: number) => (
                   <Grid2
                     size={2}
                     sx={{
@@ -1084,7 +948,7 @@ const FormLotto = () => {
             justifyContent: "center"
           }}
         >
-          {lottory5?.map((lotto: any, index: number) => (
+          {lottory5?.map((lotto, index: number) => (
             <Box
               key={index}
               sx={{
@@ -1115,7 +979,7 @@ const FormLotto = () => {
                   gap: 2
                 }}
               >
-                {lotto?.number.map((lotto: any, index: number) => (
+                {lotto?.number.map((lotto, index: number) => (
                   <Grid2
                     size={2}
                     sx={{
