@@ -1,4 +1,4 @@
-import { Box, Grid2, Typography } from "@mui/material"
+import { Box, CircularProgress, Grid2, Typography } from "@mui/material"
 import axios from "axios"
 import {
   JSXElementConstructor,
@@ -157,7 +157,7 @@ const LOTTO_INIT = {
   // }
 }
 
-const baseUrl = "http://localhost:3000/api/route"
+const baseUrl = process.env.NEXT_PUBLIC_URL
 
 const FormLotto = () => {
   const [dataset, setData] = useState<boolean>(false)
@@ -170,10 +170,22 @@ const FormLotto = () => {
   const [lottoryL2, setLottoryL2] = useState<LOTTO[]>([{ ...LOTTO_INIT }])
   const [lottoryL3F, setLottoryL3F] = useState<LOTTO[]>([{ ...LOTTO_INIT }])
   const [lottoryL3B, setLottoryL3B] = useState<LOTTO[]>([{ ...LOTTO_INIT }])
+  const [lottoryStraight3, setLottoryStraight3] = useState<LOTTO[]>([
+    { ...LOTTO_INIT }
+  ])
+  const [lottoryStraight2, setLottoryStraight2] = useState<LOTTO[]>([
+    { ...LOTTO_INIT }
+  ])
+  const [lottoryShuffle3, setLottoryShuffle3] = useState<LOTTO[]>([
+    { ...LOTTO_INIT }
+  ])
+  const [lottorySecial, setLottorySpecial] = useState<LOTTO[]>([
+    { ...LOTTO_INIT }
+  ])
 
   async function getLatestLottery() {
     try {
-      const response = await axios.post(baseUrl)
+      const response = await axios.post(baseUrl || "")
       return response?.data.response
     } catch (error) {
       console.error("Error fetching posts:", error)
@@ -188,55 +200,66 @@ const FormLotto = () => {
     setLottory1((prev: any) => {
       const lotto = [data.data.first]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottoryNear1((prev: any) => {
       const lotto = [data.data.near1]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottory2((prev: any) => {
       const lotto = [data.data.second]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottory3((prev: any) => {
       const lotto = [data.data.third]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottory4((prev: any) => {
       const lotto = [data.data.fourth]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottory5((prev: any) => {
       const lotto = [data.data.fifth]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottoryL2((prev: any) => {
       const lotto = [data.data.last2]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottoryL3F((prev: any) => {
       const lotto = [data.data.last3f]
       prev = [...lotto]
-      console.log(prev)
       return prev
     })
     setLottoryL3B((prev: any) => {
       const lotto = [data.data.last3b]
       prev = [...lotto]
-      console.log(prev)
+      return prev
+    })
+    setLottoryStraight3((prev: any) => {
+      const lotto = [data.n3.straight3]
+      prev = [...lotto]
+      return prev
+    })
+    setLottoryStraight2((prev: any) => {
+      const lotto = [data.n3.straight2]
+      prev = [...lotto]
+      return prev
+    })
+    setLottoryShuffle3((prev: any) => {
+      const lotto = [data.n3.shuffle3]
+      prev = [...lotto]
+      return prev
+    })
+    setLottorySpecial((prev: any) => {
+      const lotto = [data.n3.special]
+      prev = [...lotto]
       return prev
     })
 
@@ -244,7 +267,24 @@ const FormLotto = () => {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          <CircularProgress
+            color="warning"
+            disableShrink
+            sx={{
+              width: "500px"
+            }}
+          />
+        </Box>
+      </>
+    )
   }
 
   if (isError) {
@@ -327,6 +367,7 @@ const FormLotto = () => {
             >
               {lottoryL3F?.map((lotto: any, index: number) => (
                 <Box
+                  key={index}
                   sx={{
                     boxShadow: 3,
                     width: "90%",
@@ -386,6 +427,7 @@ const FormLotto = () => {
             >
               {lottoryL3B?.map((lotto: any, index: number) => (
                 <Box
+                  key={index}
                   sx={{
                     boxShadow: 3,
                     width: "90%",
@@ -445,6 +487,7 @@ const FormLotto = () => {
             >
               {lottoryL2?.map((lotto: any, index: number) => (
                 <Box
+                  key={index}
                   sx={{
                     boxShadow: 3,
                     width: "90%",
@@ -498,6 +541,251 @@ const FormLotto = () => {
             </Grid2>
           </Grid2>
         </Grid2>
+        {/* N3 */}
+        <Grid2 size={12} sx={{}}>
+          <Grid2 container>
+            <Grid2
+              size={3}
+              sx={{
+                justifyItems: "center"
+              }}
+            >
+              {lottoryStraight3?.map((lotto: any, index: number) => (
+                <Box
+                  key={index}
+                  sx={{
+                    boxShadow: 3,
+                    width: "90%",
+                    height: "300px",
+                    alignContent: "center",
+                    justifyItems: "center",
+                    borderRadius: "10px",
+                    px: 2
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    fontWeight={600}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+                      pb: 2
+                    }}
+                  >
+                    รางวัลสามตรง
+                  </Typography>
+                  {lotto?.number.map((lotto: any, index: number) => (
+                    <Typography
+                      key={index}
+                      variant="h4"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pb: 2
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  ))}
+                  <Typography
+                    fontWeight={300}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+
+                      fontSize: "14px",
+                      textAlign: "center"
+                    }}
+                  >
+                    รางวัลละ 10,053 บาท
+                  </Typography>
+                </Box>
+              ))}
+            </Grid2>
+            <Grid2
+              size={3}
+              sx={{
+                justifyItems: "center"
+              }}
+            >
+              {lottoryShuffle3?.map((lotto: any, index: number) => (
+                <Box
+                  key={index}
+                  sx={{
+                    boxShadow: 3,
+                    width: "90%",
+                    height: "300px",
+                    alignContent: "center",
+                    justifyItems: "center",
+                    borderRadius: "10px",
+                    px: 2
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    fontWeight={600}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+                      pb: 2
+                    }}
+                  >
+                    รางวัลสามสลับหลัก
+                  </Typography>
+                  {lotto?.number.map((lotto: any, index: number) => (
+                    <Typography
+                      key={index}
+                      variant="h4"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pb: 2
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  ))}
+                  <Typography
+                    fontWeight={300}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+
+                      fontSize: "14px",
+                      textAlign: "center"
+                    }}
+                  >
+                    รางวัลละ 3,358 บาท
+                  </Typography>
+                </Box>
+              ))}
+            </Grid2>
+            <Grid2
+              size={3}
+              sx={{
+                justifyItems: "center"
+              }}
+            >
+              {lottoryStraight2?.map((lotto: any, index: number) => (
+                <Box
+                  key={index}
+                  sx={{
+                    boxShadow: 3,
+                    width: "90%",
+                    height: "300px",
+                    alignContent: "center",
+                    justifyItems: "center",
+                    borderRadius: "10px",
+                    px: 2
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    fontWeight={600}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+                      pb: 2
+                    }}
+                  >
+                    รางวัลสองตรง
+                  </Typography>
+                  {lotto?.number.map((lotto: any, index: number) => (
+                    <Typography
+                      key={index}
+                      variant="h4"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pb: 2
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  ))}
+                  <Typography
+                    fontWeight={300}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+
+                      fontSize: "14px",
+                      textAlign: "center"
+                    }}
+                  >
+                    รางวัลละ 666 บาท
+                  </Typography>
+                </Box>
+              ))}
+            </Grid2>
+            <Grid2
+              size={3}
+              sx={{
+                justifyItems: "center"
+              }}
+            >
+              {lottorySecial?.map((lotto: any, index: number) => (
+                <Box
+                  key={index}
+                  sx={{
+                    boxShadow: 3,
+                    width: "90%",
+                    height: "300px",
+                    alignContent: "center",
+                    justifyItems: "center",
+                    borderRadius: "10px",
+                    px: 2
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    fontWeight={600}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+                      pb: 2
+                    }}
+                  >
+                    รางวัลพิเศษ
+                  </Typography>
+                  {lotto?.number.map((lotto: any, index: number) => (
+                    <Typography
+                      key={index}
+                      variant="h4"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pb: 2
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  ))}
+                  <Typography
+                    fontWeight={300}
+                    sx={{
+                      fontFamily: "Prompt",
+                      color: "#454C60",
+
+                      fontSize: "14px",
+                      textAlign: "center"
+                    }}
+                  >
+                    รางวัลละ 105,974 บาท
+                  </Typography>
+                </Box>
+              ))}
+            </Grid2>
+          </Grid2>
+        </Grid2>
         <Grid2
           size={12}
           sx={{
@@ -507,7 +795,6 @@ const FormLotto = () => {
         >
           {lottoryNear1?.map((lotto: any, index: number) => (
             <Box
-              key={index}
               sx={{
                 boxShadow: 3,
                 width: "100%",
@@ -528,11 +815,14 @@ const FormLotto = () => {
               >
                 รางวัลข้างเคียงรางวัลที่ 1
               </Typography>
-              <Grid2 container sx={{
-                justifyContent:"center"
-              }}>
+              <Grid2
+                container
+                sx={{
+                  justifyContent: "center"
+                }}
+              >
                 {lotto?.number.map((lotto: any, index: number) => (
-                  <Grid2 size={6} sx={{ pl :6}}>
+                  <Grid2 size={6} sx={{ pl: 6 }}>
                     <Typography
                       key={index}
                       variant="h4"
@@ -557,7 +847,308 @@ const FormLotto = () => {
                   px: 2
                 }}
               >
-               2 รางวัลๆ ละ 100,000 บาท (รับสุทธิหลังถูกหักภาษี 99,500 บาท)
+                2 รางวัลๆ ละ 100,000 บาท (รับสุทธิหลังถูกหักภาษี 99,500 บาท)
+              </Typography>
+            </Box>
+          ))}
+        </Grid2>
+        <Grid2
+          size={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          {lottory2?.map((lotto: any, index: number) => (
+            <Box
+              key={index}
+              sx={{
+                boxShadow: 3,
+                width: "100%",
+                height: "300px",
+                alignContent: "center",
+                justifyItems: "center",
+                borderRadius: "10px"
+              }}
+            >
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  pb: 4
+                }}
+              >
+                รางวัลที่ 2
+              </Typography>
+              <Grid2
+                container
+                sx={{
+                  width: "100%",
+                  justifyContent: "center",
+                  gap: 2
+                }}
+              >
+                {lotto?.number.map((lotto: any, index: number) => (
+                  <Grid2
+                    size={2}
+                    sx={{
+                      justifyItems: "center"
+                    }}
+                  >
+                    <Typography
+                      key={index}
+                      variant="h4"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pb: 4
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  </Grid2>
+                ))}
+              </Grid2>
+              <Typography
+                fontWeight={300}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  px: 2
+                }}
+              >
+                5 รางวัลๆ ละ 200,000 บาท (รับสุทธิหลังถูกหักภาษี 199,000 บาท)
+              </Typography>
+            </Box>
+          ))}
+        </Grid2>
+        <Grid2
+          size={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          {lottory3?.map((lotto: any, index: number) => (
+            <Box
+              key={index}
+              sx={{
+                boxShadow: 3,
+                width: "100%",
+                height: "300px",
+                alignContent: "center",
+                justifyItems: "center",
+                borderRadius: "10px"
+              }}
+            >
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  pb: 4
+                }}
+              >
+                รางวัลที่ 3
+              </Typography>
+              <Grid2
+                container
+                sx={{
+                  width: "100%",
+                  justifyContent: "center",
+                  gap: 2
+                }}
+              >
+                {lotto?.number.map((lotto: any, index: number) => (
+                  <Grid2
+                    size={2}
+                    sx={{
+                      justifyItems: "center"
+                    }}
+                  >
+                    <Typography
+                      key={index}
+                      variant="h5"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pb: 4
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  </Grid2>
+                ))}
+              </Grid2>
+              <Typography
+                fontWeight={300}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  px: 2
+                }}
+              >
+                10 รางวัล รางวัลละ 80,000 บาท (รับสุทธิหลังถูกหักภาษี 79,600
+                บาท)
+              </Typography>
+            </Box>
+          ))}
+        </Grid2>
+        <Grid2
+          size={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          {lottory4?.map((lotto: any, index: number) => (
+            <Box
+              key={index}
+              sx={{
+                boxShadow: 3,
+                width: "100%",
+                height: "1100px",
+                alignContent: "center",
+                justifyItems: "center",
+                borderRadius: "10px"
+              }}
+            >
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  pb: 4
+                }}
+              >
+                รางวัลที่ 4
+              </Typography>
+              <Grid2
+                container
+                sx={{
+                  width: "100%",
+                  justifyContent: "center",
+                  gap: 2
+                }}
+              >
+                {lotto?.number.map((lotto: any, index: number) => (
+                  <Grid2
+                    size={2}
+                    sx={{
+                      justifyItems: "center"
+                    }}
+                  >
+                    <Typography
+                      key={index}
+                      variant="h5"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pt: 4
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  </Grid2>
+                ))}
+              </Grid2>
+              <Typography
+                fontWeight={300}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  px: 2,
+                  pt: 8
+                }}
+              >
+                10 รางวัล รางวัลละ 80,000 บาท (รับสุทธิหลังถูกหักภาษี 79,600
+                บาท)
+              </Typography>
+            </Box>
+          ))}
+        </Grid2>
+        <Grid2
+          size={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          {lottory5?.map((lotto: any, index: number) => (
+            <Box
+              key={index}
+              sx={{
+                boxShadow: 3,
+                width: "100%",
+                height: "1900px",
+                alignContent: "center",
+                justifyItems: "center",
+                borderRadius: "10px"
+              }}
+            >
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  pb: 4
+                }}
+              >
+                รางวัลที่ 5
+              </Typography>
+              <Grid2
+                container
+                sx={{
+                  width: "100%",
+                  justifyContent: "center",
+                  gap: 2
+                }}
+              >
+                {lotto?.number.map((lotto: any, index: number) => (
+                  <Grid2
+                    size={2}
+                    sx={{
+                      justifyItems: "center"
+                    }}
+                  >
+                    <Typography
+                      key={index}
+                      variant="h5"
+                      fontWeight={600}
+                      sx={{
+                        fontFamily: "Prompt",
+                        pt: 4
+                      }}
+                      letterSpacing={2}
+                      color="warning"
+                    >
+                      {lotto.value}
+                    </Typography>
+                  </Grid2>
+                ))}
+              </Grid2>
+              <Typography
+                fontWeight={300}
+                sx={{
+                  fontFamily: "Prompt",
+                  color: "#454C60",
+                  px: 2,
+                  pt: 8
+                }}
+              >
+                100 รางวัล รางวัลละ 20,000 บาท (รับสุทธิหลังถูกหักภาษี 19,900
+                บาท)
               </Typography>
             </Box>
           ))}
