@@ -9,7 +9,6 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  
   async function fetchPosts() {
     try {
       const response = await axios.post(
@@ -22,5 +21,3 @@ export default function handler(
   }
   fetchPosts()
 }
-
-
